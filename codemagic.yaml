@@ -1,0 +1,48 @@
+workflows:
+  ios-simulator-first-build:
+    name: OneInChristApp - First iOS Simulator Build
+
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+
+    environment:
+      node: "22"
+      xcode: latest
+
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm ci
+
+      - name: Build shared Vite app
+        script: |
+          npm run build
+
+      - name: Generate Capacitor iOS project
+        script: |
+          npx cap add ios
+
+      - name: Sync Capacitor iOS
+        script: |
+          npx cap sync ios
+
+      - name: Show generated iOS project
+        script: |
+          find ios -maxdepth 3 -type f | sort | head -200
+
+      - name: Build unsigned iOS Simulator app
+        script: |
+          xcodebuild \
+            -project "$CM_BUILD_DIR/ios/App/App.xcodeproj" \
+            -scheme "App" \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+    artifacts:
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+      - /tmp/xcodebuild_logs/*.log
