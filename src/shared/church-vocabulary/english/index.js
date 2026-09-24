@@ -1,0 +1,120 @@
+import {
+  ENGLISH_GOD_TRINITY_PHRASES
+} from './01-god-trinity.js'
+
+import {
+  ENGLISH_JESUS_CHRIST_PHRASES
+} from './02-jesus-christ.js'
+
+import {
+  ENGLISH_HOLY_SPIRIT_PHRASES
+} from './03-holy-spirit.js'
+
+import {
+  ENGLISH_SCRIPTURE_GOSPEL_PHRASES
+} from './04-scripture-gospel.js'
+
+import {
+  ENGLISH_SALVATION_GRACE_PHRASES
+} from './05-salvation-grace.js'
+
+import {
+  ENGLISH_SIN_REPENTANCE_FORGIVENESS_PHRASES
+} from './06-sin-repentance-forgiveness.js'
+
+import {
+  ENGLISH_FAITH_CHRISTIAN_LIFE_PHRASES
+} from './07-faith-christian-life.js'
+
+import {
+  ENGLISH_PRAYER_WORSHIP_PHRASES
+} from './08-prayer-worship.js'
+
+import {
+  ENGLISH_CHURCH_MINISTRY_PHRASES
+} from './09-church-ministry.js'
+
+import {
+  ENGLISH_BAPTISM_COMMUNION_PHRASES
+} from './10-baptism-communion.js'
+
+import {
+  ENGLISH_SPIRITUAL_GIFTS_FRUIT_PHRASES
+} from './11-spiritual-gifts-fruit.js'
+
+import {
+  ENGLISH_RESURRECTION_ETERNAL_LIFE_PHRASES
+} from './12-resurrection-eternal-life.js'
+
+import {
+  ENGLISH_MISSION_EVANGELISM_PHRASES
+} from './13-mission-evangelism.js'
+
+import {
+  ENGLISH_SUFFERING_HEALING_COMFORT_PHRASES
+} from './14-suffering-healing-comfort.js'
+
+import {
+  ENGLISH_FAMILY_COMMUNITY_PHRASES
+} from './15-family-community.js'
+
+import {
+  ENGLISH_SERMON_LANGUAGE_PHRASES
+} from './16-sermon-language.js'
+
+import {
+  ENGLISH_OLD_TESTAMENT_THEMES_PHRASES
+} from './17-old-testament-themes.js'
+
+import {
+  ENGLISH_NEW_TESTAMENT_THEMES_PHRASES
+} from './18-new-testament-themes.js'
+
+import {
+  ENGLISH_BIBLE_BOOKS_PHRASES
+} from './19-bible-books.js'
+
+import {
+  ENGLISH_BIBLICAL_PEOPLE_PHRASES
+} from './20-biblical-people.js'
+
+import {
+  ENGLISH_BIBLICAL_PLACES_PHRASES
+} from './21-biblical-places.js'
+
+import {
+  ENGLISH_FEASTS_CALENDAR_PHRASES
+} from './22-feasts-calendar.js'
+
+import {
+  ENGLISH_CHRISTIAN_TRANSLATION_RULES
+} from './translation-rules.js'
+
+export const ENGLISH_CHRISTIAN_PHRASES = [
+  ...ENGLISH_GOD_TRINITY_PHRASES,
+  ...ENGLISH_JESUS_CHRIST_PHRASES,
+  ...ENGLISH_HOLY_SPIRIT_PHRASES,
+  ...ENGLISH_SCRIPTURE_GOSPEL_PHRASES,
+  ...ENGLISH_SALVATION_GRACE_PHRASES,
+  ...ENGLISH_SIN_REPENTANCE_FORGIVENESS_PHRASES,
+  ...ENGLISH_FAITH_CHRISTIAN_LIFE_PHRASES,
+  ...ENGLISH_PRAYER_WORSHIP_PHRASES,
+  ...ENGLISH_CHURCH_MINISTRY_PHRASES,
+  ...ENGLISH_BAPTISM_COMMUNION_PHRASES,
+  ...ENGLISH_SPIRITUAL_GIFTS_FRUIT_PHRASES,
+  ...ENGLISH_RESURRECTION_ETERNAL_LIFE_PHRASES,
+  ...ENGLISH_MISSION_EVANGELISM_PHRASES,
+  ...ENGLISH_SUFFERING_HEALING_COMFORT_PHRASES,
+  ...ENGLISH_FAMILY_COMMUNITY_PHRASES,
+  ...ENGLISH_SERMON_LANGUAGE_PHRASES,
+  ...ENGLISH_OLD_TESTAMENT_THEMES_PHRASES,
+  ...ENGLISH_NEW_TESTAMENT_THEMES_PHRASES,
+  ...ENGLISH_BIBLE_BOOKS_PHRASES,
+  ...ENGLISH_BIBLICAL_PEOPLE_PHRASES,
+  ...ENGLISH_BIBLICAL_PLACES_PHRASES,
+  ...ENGLISH_FEASTS_CALENDAR_PHRASES
+]
+
+export {
+  ENGLISH_CHRISTIAN_TRANSLATION_RULES
+}

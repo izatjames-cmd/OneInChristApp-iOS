@@ -1,0 +1,634 @@
+<!-- Fallback web font for immediate rendering -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================
+   EMBEDDED URDU FONT (JAMEEL NOORI NASTALIQ)
+   ========================================== */
+@font-face {
+    font-family: 'Jameel Noori Nastaliq';
+    src: url('/fileadmin/fonts/Jameel_Noori_Nastaliq.woff2') format('woff2'),
+         url('/fileadmin/fonts/Jameel_Noori_Nastaliq.woff') format('woff'),
+         url('/fileadmin/fonts/Jameel_Noori_Nastaliq.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+* {
+    box-sizing: border-box;
+    box-shadow: none !important;
+}
+
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    padding-top: 125px !important;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 125px;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: #fff;
+    z-index: 999998;
+    pointer-events: none;
+}
+
+/* Hide original website navigation without hiding custom Urdu navbar */
+body > header:not(#urdu-navbar),
+body > nav:not(#urdu-navbar),
+.main-navigation,
+#site-navigation,
+.mobile-menu:not(#urduDropdown),
+.mobile-nav,
+.menu-toggle,
+button[aria-label="Menu"] {
+    display: none !important;
+}
+
+/* Hide breadcrumbs */
+.breadcrumb,
+.breadcrumbs,
+#breadcrumb,
+.typo3-breadcrumb,
+nav[aria-label="breadcrumb"],
+.you-are-here,
+[class*="breadcrumb"],
+[class*="Bread"],
+[class*="path"],
+[id*="breadcrumb"] {
+    display: none !important;
+}
+
+#page,
+.page,
+.site,
+.site-wrapper,
+.main-content,
+main {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Main fixed navbar */
+#urdu-navbar {
+    font-family: 'Jameel Noori Nastaliq', 'Noto Nastaliq Urdu', 'Alvi Nastaliq', 'Segoe UI', Tahoma, Arial, sans-serif;
+    width: 100%;
+    background: #fff;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999999;
+    display: block !important;
+    visibility: visible !important;
+    /* Global RTL removed here to allow Logo on Left via Grid */
+}
+
+/* Desktop layout */
+#urdu-navbar .top-bar {
+    height: 125px;
+    display: grid !important;
+    grid-template-columns: 160px 1fr 160px;
+    align-items: center;
+    padding: 8px 20px;
+    max-width: 1180px;
+    margin: 0 auto;
+    width: 100%;
+    direction: ltr; /* Forces Logo to Left (col 1), Menu Center (col 2), Button Right (col 3) */
+}
+
+/* Logo - Now safely on the left */
+#urdu-navbar .logo-container {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start;
+    grid-column: 1;
+    padding: 0;
+}
+
+#urdu-navbar .logo {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#urdu-navbar .logo img {
+    height: 120px;
+    width: auto;
+    max-width: 130px;
+    display: block !important;
+    object-fit: contain;
+}
+
+/* Menu container */
+#urdu-navbar .menu-container {
+    grid-column: 2;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    direction: rtl; /* Urdu menu flows right to left */
+    text-align: right;
+}
+
+/* Desktop menu */
+#urdu-navbar .desktop-menu {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 2;
+    direction: rtl; /* Ensure menu items flow right to left */
+}
+
+#urdu-navbar .desktop-menu a,
+#urdu-navbar .mobile-dropdown a {
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    padding: 8px 0;
+    white-space: nowrap;
+    position: relative;
+    font-weight: 400;
+    text-decoration: none;
+    color: #000 !important;
+    display: inline-block;
+}
+
+/* Hover and active line - Grows right to left, perfect for Urdu */
+#urdu-navbar .desktop-menu a::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+    left: auto;
+    width: 0;
+    height: 2px;
+    background: #000;
+    transition: width 0.3s ease;
+}
+
+#urdu-navbar .desktop-menu a:hover::after,
+#urdu-navbar .desktop-menu a.active::after,
+#urdu-navbar .has-submenu:hover > .submenu-parent::after {
+    width: 100%;
+}
+
+#urdu-navbar .desktop-menu a:hover,
+#urdu-navbar .mobile-dropdown a:hover {
+    opacity: 0.7;
+}
+
+/* Desktop submenu */
+#urdu-navbar .has-submenu {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#urdu-navbar .has-submenu::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    left: auto;
+    top: 100%;
+    width: 100%;
+    height: 15px;
+}
+
+#urdu-navbar .submenu-parent {
+    display: flex !important;
+    align-items: center;
+    gap: 6px;
+}
+
+#urdu-navbar .submenu-icon {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1;
+}
+
+/* Submenu dropdown */
+#urdu-navbar .submenu {
+    position: absolute;
+    top: calc(100% + 15px);
+    right: 0; /* Aligns to right edge of parent */
+    left: auto;
+    transform: none;
+    background: #fff;
+    min-width: 220px;
+    display: none;
+    flex-direction: column;
+    padding: 12px 20px;
+    z-index: 999999;
+    text-align: right;
+    direction: rtl;
+}
+
+#urdu-navbar .has-submenu:hover .submenu {
+    display: flex;
+}
+
+#urdu-navbar .submenu a {
+    padding: 10px 0;
+    display: block;
+    width: 100%;
+    color: #0AA382 !important;
+    font-weight: 500;
+}
+
+/* Mobile button */
+#urdu-navbar .mobile-button {
+    display: none;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 7px;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    grid-column: 3; /* Explicitly place in 3rd column (right side) */
+    margin-left: auto;
+}
+
+#urdu-navbar .mobile-button span {
+    width: 28px;
+    height: 2px;
+    background: #000;
+    border-radius: 10px;
+    display: block;
+}
+
+/* Mobile dropdown */
+#urdu-navbar .mobile-dropdown {
+    display: none;
+    flex-direction: column;
+    text-align: right;
+    font-size: 18px;
+    line-height: 2;
+    padding: 10px 25px 20px;
+    background: #fff;
+    width: 100%;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    direction: rtl; /* Ensure mobile dropdown is RTL */
+}
+
+#urdu-navbar .mobile-dropdown.show {
+    display: flex !important;
+}
+
+#urdu-navbar .mobile-dropdown a {
+    display: block !important;
+    width: 100%;
+    padding: 14px 0;
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+}
+
+#urdu-navbar .mobile-dropdown a:last-child {
+    border-bottom: none !important;
+}
+
+/* Mobile submenu */
+#urdu-navbar .mobile-submenu {
+    display: none;
+    flex-direction: column;
+    padding-right: 15px;
+    padding-left: 0;
+}
+
+#urdu-navbar .mobile-submenu.show {
+    display: flex;
+}
+
+#urdu-navbar .mobile-submenu a {
+    color: #0AA382 !important;
+    font-weight: 500;
+}
+
+#urdu-navbar .submenu-toggle {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+    direction: rtl; /* Text on right, button on left */
+}
+
+#urdu-navbar .submenu-toggle a {
+    flex: 1;
+    border-bottom: none !important;
+    text-align: right;
+}
+
+#urdu-navbar .submenu-toggle button {
+    width: 45px;
+    height: 45px;
+    border: 0;
+    background: transparent;
+    color: #000;
+    font-family: 'Jameel Noori Nastaliq', 'Noto Nastaliq Urdu', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+    body {
+        padding-top: 120px !important;
+    }
+
+    body::before {
+        top: 120px;
+        height: 8px;
+        background: #fff;
+    }
+
+    #urdu-navbar .top-bar {
+        height: 120px;
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 20px 2px;
+        max-width: none;
+        direction: ltr; /* Logo left, button right */
+    }
+
+    #urdu-navbar .logo-container {
+        justify-content: flex-start;
+        grid-column: auto;
+        margin: 0;
+        padding: 0;
+        position: static;
+        transform: none;
+    }
+
+    #urdu-navbar .menu-container {
+        display: none !important;
+    }
+
+    #urdu-navbar .mobile-button {
+        display: flex !important;
+        margin-left: auto; /* Pushes to the right in LTR */
+        margin-right: 0;
+    }
+
+    #urdu-navbar .logo img {
+        height: 110px;
+        max-width: 150px;
+    }
+}
+
+/* ==========================================
+   PRAYER REQUEST LINK — WARM AMBER THEME
+   ========================================== */
+#urdu-navbar .desktop-menu a.prayer-request-link,
+#urdu-navbar .mobile-dropdown a.prayer-request-link {
+    color: #D97706 !important;
+    font-weight: 700 !important;
+}
+
+#urdu-navbar .desktop-menu a.prayer-request-link:hover,
+#urdu-navbar .mobile-dropdown a.prayer-request-link:hover {
+    color: #B45309 !important;
+    opacity: 1 !important;
+}
+
+#urdu-navbar .desktop-menu a.prayer-request-link::after {
+    background: #D97706 !important;
+}
+</style>
+
+<div id="urdu-navbar">
+    <div class="top-bar">
+        <div class="logo-container">
+            <a class="logo" href="https://www.emdrupkirke.dk/urdu">
+                <img src="https://www.emdrupkirke.dk/fileadmin/group/262/Pakistan/Logo/logo.png" alt="Logo">
+            </a>
+        </div>
+
+        <div class="menu-container">
+            <div class="desktop-menu">
+                <a href="https://www.emdrupkirke.dk/urdu/uurdu/uhome">ہوم</a>
+                <a href="https://www.emdrupkirke.dk/urdu/uurdu/uservice">عبادتی خدمات</a>
+
+                <div class="has-submenu">
+                    <a href="https://www.emdrupkirke.dk/urdu/uurdu/uactivities" class="submenu-parent">
+                        <span class="submenu-icon">+</span> سرگرمیاں
+                    </a>
+
+                    <div class="submenu">
+                        <a href="https://www.emdrupkirke.dk/urdu/uurdu/uactivities/ulanschool">لینگویج اسکول</a>
+                        <a href="https://www.emdrupkirke.dk/urdu/uurdu/uactivities/uyouth">یوتھ فیلوشپ</a>
+                        <a href="https://www.emdrupkirke.dk/urdu/uurdu/uactivities/usunschool">سنڈے اسکول</a>
+                        <a href="https://www.emdrupkirke.dk/urdu/uurdu/uactivities/uprayer">پرئیر میٹنگ</a>
+                        <a href="https://www.emdrupkirke.dk/urdu/uurdu/uactivities/uwomen">شامِ خواتین</a>
+                    </div>
+                </div>
+
+                <a href="https://www.emdrupkirke.dk/urdu/uurdu/ucalendar">کیلنڈر</a>
+                <a href="https://www.emdrupkirke.dk/urdu/uurdu/uabout">چرچ کے بارے میں</a>
+                <a href="https://www.emdrupkirke.dk/urdu/uurdu/ucontact">رابطہ</a>
+                <a href="https://www.emdrupkirke.dk/urdu/uurdu/umember">ممبر بنیں</a>
+                
+                <a href="https://www.emdrupkirke.dk/urdu/uurdu/uprayerrequest" class="prayer-request-link">دعا کی درخواست</a>
+            </div>
+        </div>
+
+        <button
+            type="button"
+            class="mobile-button"
+            id="urduMobileButton"
+            aria-label="نیویگیشن مینو کھولیں"
+            aria-controls="urduDropdown"
+            aria-expanded="false"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+
+    <div class="mobile-dropdown" id="urduDropdown">
+        <a href="https://www.emdrupkirke.dk/urdu/uurdu/uhome">ہوم</a>
+        <a href="https://www.emdrupkirke.dk/urdu/uurdu/uservice">عبادتی خدمات</a>
+
+        <div class="mobile-submenu-wrapper">
+            <div class="submenu-toggle">
+                <a href="https://www.emdrupkirke.dk/urdu/uurdu/uactivities">سرگرمیاں</a>
+                <button
+                    type="button"
+                    id="urduSubmenuToggle"
+                    aria-label="سرگرمیوں کی ذیلی مینو کھولیں"
+                    aria-controls="urduMobileSubmenu"
+                    aria-expanded="false"
+                >+</button>
+            </div>
+
+            <div class="mobile-submenu" id="urduMobileSubmenu">
+                <a href="https://www.emdrupkirke.dk/urdu/uurdu/uactivities/ulanschool">لینگویج اسکول</a>
+                <a href="https://www.emdrupkirke.dk/urdu/uurdu/uactivities/uyouth">یوتھ فیلوشپ</a>
+                <a href="https://www.emdrupkirke.dk/urdu/uurdu/uactivities/usunschool">سنڈے اسکول</a>
+                <a href="https://www.emdrupkirke.dk/urdu/uurdu/uactivities/uprayer">پرئیر میٹنگ</a>
+                <a href="https://www.emdrupkirke.dk/urdu/uurdu/uactivities/uwomen">شامِ خواتین</a>
+            </div>
+        </div>
+
+        <a href="https://www.emdrupkirke.dk/urdu/uurdu/ucalendar">کیلنڈر</a>
+        <a href="https://www.emdrupkirke.dk/urdu/uurdu/uabout">چرچ کے بارے میں</a>
+        <a href="https://www.emdrupkirke.dk/urdu/uurdu/ucontact">رابطہ</a>
+        <a href="https://www.emdrupkirke.dk/urdu/uurdu/umember">ممبر بنیں</a>
+        
+        <a href="https://www.emdrupkirke.dk/urdu/uurdu/uprayerrequest" class="prayer-request-link">دعا کی درخواست</a>
+    </div>
+</div>
+
+<script>
+(function () {
+    function initUrduNavbar() {
+        const currentPage = window.location.href.split('#')[0].replace(/\/$/, '');
+        const menuItems = document.querySelectorAll('#urdu-navbar a');
+        const activitiesParent = document.querySelector('#urdu-navbar .desktop-menu .submenu-parent');
+        
+        const activityPaths = [
+            'https://www.emdrupkirke.dk/urdu/uurdu/uactivities',
+            'https://www.emdrupkirke.dk/urdu/uurdu/uactivities/langschool',
+            'https://www.emdrupkirke.dk/urdu/uurdu/uactivities/youth',
+            'https://www.emdrupkirke.dk/urdu/uurdu/uactivities/sunsch',
+            'https://www.emdrupkirke.dk/urdu/uurdu/uactivities/prayer',
+            'https://www.emdrupkirke.dk/urdu/uurdu/uactivities/woman'
+        ];
+
+        menuItems.forEach(function (item) {
+            const itemUrl = item.href.split('#')[0].replace(/\/$/, '');
+
+            if (itemUrl === currentPage) {
+                item.classList.add('active');
+            }
+        });
+
+        if (activitiesParent && activityPaths.indexOf(currentPage) !== -1) {
+            activitiesParent.classList.add('active');
+        }
+
+        const mobileButton = document.getElementById('urduMobileButton');
+        const mobileDropdown = document.getElementById('urduDropdown');
+        const submenuToggle = document.getElementById('urduSubmenuToggle');
+        const mobileSubmenu = document.getElementById('urduMobileSubmenu');
+
+        if (mobileButton && mobileDropdown) {
+            mobileButton.addEventListener('click', function () {
+                const isOpen = mobileDropdown.classList.toggle('show');
+                mobileButton.setAttribute('aria-expanded', String(isOpen));
+                mobileButton.setAttribute('aria-label', isOpen ? 'نیویگیشن مینو بند کریں' : 'نیویگیشن مینو کھولیں');
+            });
+        }
+
+        if (submenuToggle && mobileSubmenu) {
+            submenuToggle.addEventListener('click', function () {
+                const isOpen = mobileSubmenu.classList.toggle('show');
+
+                submenuToggle.textContent = isOpen ? '-' : '+';
+                submenuToggle.setAttribute('aria-expanded', String(isOpen));
+                submenuToggle.setAttribute('aria-label', isOpen ? 'سرگرمیوں کی ذیلی مینو بند کریں' : 'سرگرمیوں کی ذیلی مینو کھولیں');
+            });
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initUrduNavbar);
+    } else {
+        initUrduNavbar();
+    }
+})();
+</script>
+<script data-member-language="ur">
+// Paste using one of the generated HTML blocks, after the existing navbar.
+(function () {
+    const language = document.currentScript.dataset.memberLanguage;
+    const labels = {
+        en: ['Member Login', 'Member Area'],
+        da: ['Medlemslogin', 'Medlemsområde'],
+        ur: ['رکن لاگ اِن', 'اراکین کا حصہ']
+    }[language];
+    if (!labels || window.parent === window) return;
+
+    function start() {
+        const dropdown = document.querySelector('.mobile-dropdown');
+        if (!dropdown || dropdown.querySelector('[data-oneinchrist-members]')) return;
+        const group = document.createElement('div');
+        group.dataset.oneinchristMembers = 'true';
+        group.hidden = true;
+        group.style.setProperty('display', 'none', 'important');
+        group.style.borderTop = '1px solid rgba(0,0,0,.12)';
+        group.lang = language;
+        group.dir = language === 'ur' ? 'rtl' : 'ltr';
+        let appOrigin = null;
+        const links = labels.map(function (label, index) {
+            const link = document.createElement('a');
+            link.href = '#';
+            link.textContent = label;
+            link.style.textAlign = language === 'ur' ? 'right' : 'left';
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                if (!appOrigin) return;
+                window.parent.postMessage({
+                    type: 'oneinchrist:member-menu-action', version: 1,
+                    action: index === 0 ? 'login' : 'area'
+                }, appOrigin);
+                dropdown.classList.remove('show');
+                const toggle = document.querySelector('[aria-controls="' + dropdown.id + '"]');
+                if (toggle) toggle.setAttribute('aria-expanded', 'false');
+            });
+            group.appendChild(link);
+            return link;
+        });
+        dropdown.appendChild(group);
+        // Only the local app shell may enable these links. A public website
+        // visit never receives this handshake and keeps them hidden.
+        const allowed = function (origin) {
+            return origin === 'capacitor://localhost' || origin === 'https://localhost' ||
+                /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+        };
+        window.addEventListener('message', function (event) {
+            if (event.source !== window.parent || !allowed(event.origin)) return;
+            const data = event.data;
+            if (!data || data.version !== 1) return;
+            if (data.type === 'oneinchrist:member-menu-probe') {
+                window.parent.postMessage({ type: 'oneinchrist:member-menu-ready', version: 1 }, event.origin);
+            } else if (data.type === 'oneinchrist:member-menu-state') {
+                appOrigin = event.origin;
+                group.hidden = false;
+                group.style.setProperty('display', 'block', 'important');
+                links[1].style.setProperty('display', data.memberAreaAvailable ? 'block' : 'none', 'important');
+            }
+        });
+        // No user information is included in the initial readiness message.
+        window.parent.postMessage({ type: 'oneinchrist:member-menu-ready', version: 1 }, '*');
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+    else start();
+})();
+
+</script>

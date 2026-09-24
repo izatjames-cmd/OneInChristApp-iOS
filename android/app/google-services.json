@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "654065189274",
+    "project_id": "one-in-christ-church",
+    "storage_bucket": "one-in-christ-church.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654065189274:android:a24413d5f02f69a7013a23",
+        "android_client_info": {
+          "package_name": "org.oneinchristchurch.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkFYSssBAr55cEqsizIQJySGz_pm1I8N4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,723 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function hasAdminAccess() {
+      return isSignedIn()
+        && exists(
+          /databases/$(database)/documents/adminAccess/$(request.auth.uid)
+        );
+    }
+
+    function adminAccess() {
+      return get(
+        /databases/$(database)/documents/adminAccess/$(request.auth.uid)
+      ).data;
+    }
+
+    function isChurchAdmin() {
+      return hasAdminAccess()
+        && adminAccess().churchAdmin == true;
+    }
+
+    function isFoodAdmin() {
+      return hasAdminAccess()
+        && adminAccess().foodAdmin == true;
+    }
+
+    function isChoirAdmin() {
+      return hasAdminAccess()
+        && adminAccess().choirAdmin == true;
+    }
+
+    function isChoirPlanning() {
+      return hasAdminAccess()
+        && adminAccess().choirPlanning == true;
+    }
+
+    function canPrepareChoir() {
+      return isChoirAdmin()
+        || isChoirPlanning();
+    }
+
+    function isPlanAdmin() {
+      return hasAdminAccess()
+        && adminAccess().planAdmin == true;
+    }
+
+    function canManageLiveSermonTranslation() {
+      return isPlanAdmin()
+        || isChurchAdmin();
+    }
+
+    function isScripturePreparation() {
+      return hasAdminAccess()
+        && (
+          adminAccess().scripturePreparation == true
+          || adminAccess().scripturePreparationAdmin == true
+          || adminAccess().churchAdmin == true
+        );
+    }
+
+    function canDiscussScripturePreparation() {
+      return isScripturePreparation()
+        || (
+          isSignedIn()
+          && exists(/databases/$(database)/documents/members/$(request.auth.uid))
+          && (
+            get(/databases/$(database)/documents/members/$(request.auth.uid)).data.get('scripturePreparation', false) == true
+            || get(/databases/$(database)/documents/members/$(request.auth.uid)).data.get('scripturePreparationMember', false) == true
+          )
+        );
+    }
+
+    function validScripturePreparationMessageAudio() {
+      let audio = request.resource.data.get('audioBase64', '');
+      let audioDuration = request.resource.data.get('audioDurationSeconds', 0);
+      return audio is string && audio.size() <= 956000
+        && (audio == '' || audio.matches('data:audio/[a-zA-Z0-9.+-]+(;[^,]*)?;base64,[A-Za-z0-9+/=]+'))
+        && audioDuration is number && audioDuration >= 0 && audioDuration <= 120;
+    }
+
+    function isDailyDevotionAdmin() {
+      return hasAdminAccess()
+        && (
+          adminAccess().dailyDevotionAdmin == true
+          || adminAccess().churchAdmin == true
+        );
+    }
+
+    function isAiBibleReadingAdmin() {
+      return hasAdminAccess()
+        && (
+          adminAccess().aiBibleReadingAdmin == true
+          || adminAccess().churchAdmin == true
+        );
+    }
+
+    function isYouthAdmin() {
+      return hasAdminAccess()
+        && (
+          adminAccess().youthAdmin == true
+          || adminAccess().churchAdmin == true
+        );
+    }
+
+    function isSundaySchoolTeacher() {
+      return hasAdminAccess()
+        && adminAccess().get('sundaySchoolTeacher', false) == true;
+    }
+
+    function isSundaySchoolAdmin() {
+      return hasAdminAccess()
+        && (
+          adminAccess().get('sundaySchoolAdmin', false) == true
+          || adminAccess().get('churchAdmin', false) == true
+        );
+    }
+
+    function isDanishLanguageAdmin() {
+      return hasAdminAccess()
+        && (
+          adminAccess().languageSchoolAdmin == true
+          || adminAccess().churchAdmin == true
+        );
+    }
+
+    function canTeachSundaySchool() {
+      return isSundaySchoolTeacher()
+        || isSundaySchoolAdmin();
+    }
+
+    function validSundaySchoolMessageAudio() {
+      let audio = request.resource.data.get('audioBase64', '');
+      let audioDuration = request.resource.data.get('audioDurationSeconds', 0);
+      return audio is string
+        && audio.size() <= 956000
+        && (
+          audio == ''
+          || audio.matches('data:audio/[a-zA-Z0-9.+-]+(;[^,]*)?;base64,[A-Za-z0-9+/=]+')
+        )
+        && audioDuration is number
+        && audioDuration >= 0
+        && audioDuration <= 120;
+    }
+
+    function isPrayerLeader() {
+      return hasAdminAccess()
+        && adminAccess().prayerLeader == true;
+    }
+
+    function isPrayerAdmin() {
+      return hasAdminAccess()
+        && (
+          adminAccess().prayerAdmin == true
+          || adminAccess().churchAdmin == true
+        );
+    }
+
+    function canManagePrayer() {
+      return isPrayerLeader()
+        || isPrayerAdmin();
+    }
+
+    function isPrayerNotification() {
+      return request.resource.data.section == 'prayer'
+        && request.resource.data.category == 'prayer';
+    }
+
+    function isFoodNotification() {
+      return request.resource.data.section == 'food'
+        && request.resource.data.category == 'food';
+    }
+
+    function isSundaySchoolNotification() {
+      return request.resource.data.section == 'sunday-school'
+        && request.resource.data.category == 'sundaySchool';
+    }
+
+    function isChoirNotification() {
+      return request.resource.data.section == 'choir'
+        && request.resource.data.category == 'choir'
+        && request.resource.data.audience == 'choir';
+    }
+
+    function isChoirFeedbackNotification() {
+      return request.resource.data.section == 'choir'
+        && request.resource.data.category == 'choirFeedback'
+        && request.resource.data.audience == 'choirAdmin';
+    }
+
+    function isServiceNotification() {
+      return request.resource.data.section == 'plan'
+        && request.resource.data.category == 'service';
+    }
+
+    function isScripturePreparationNotification() {
+      return request.resource.data.section == 'scripture-preparation'
+        && request.resource.data.category == 'service';
+    }
+
+    function isAiBibleReadingNotification() {
+      return request.resource.data.section == 'ai-bible-reading'
+        && request.resource.data.category == 'aiBibleReading';
+    }
+
+    function isDanishLanguageNotification() {
+      return request.resource.data.section == 'danish-language'
+        && request.resource.data.category == 'danishLanguage';
+    }
+
+    function canDiscussDanishLanguage() {
+      return isDanishLanguageAdmin()
+        || (
+          isSignedIn()
+          && exists(/databases/$(database)/documents/members/$(request.auth.uid))
+          && get(/databases/$(database)/documents/members/$(request.auth.uid)).data.get('languageSchool', false) == true
+        );
+    }
+
+    match /members/{memberId} {
+      allow read:
+        if isSignedIn();
+
+      allow write:
+        if false;
+    }
+
+    match /adminAccess/{userId} {
+      allow read:
+        if isSignedIn()
+        && request.auth.uid == userId;
+
+      allow write:
+        if false;
+    }
+
+    match /foodEvents/{foodEventId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update, delete:
+        if isFoodAdmin();
+    }
+
+    match /foodRegistrations/{registrationId} {
+      allow read:
+        if isSignedIn();
+
+      allow create:
+        if isSignedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.paid == false;
+
+      allow update:
+        if isFoodAdmin()
+        || (
+          isSignedIn()
+          && resource.data.uid == request.auth.uid
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.paid == resource.data.paid
+        );
+
+      allow delete:
+        if isSignedIn()
+        && resource.data.uid == request.auth.uid;
+    }
+
+    match /deviceTokens/{userId} {
+      allow read:
+        if isSignedIn()
+        && request.auth.uid == userId;
+
+      allow create, update:
+        if isSignedIn()
+        && request.auth.uid == userId
+        && request.resource.data.uid == request.auth.uid;
+
+      allow delete:
+        if isSignedIn()
+        && request.auth.uid == userId;
+    }
+
+    match /churchNotifications/{notificationId} {
+      allow read:
+        if isSignedIn();
+
+      allow create:
+        if isChurchAdmin()
+        || (
+          isFoodAdmin()
+          && isFoodNotification()
+        )
+        || (
+          isPrayerAdmin()
+          && isPrayerNotification()
+        )
+        || (
+          isSundaySchoolAdmin()
+          && isSundaySchoolNotification()
+        )
+        || (
+          canPrepareChoir()
+          && isChoirNotification()
+        )
+        || (
+          isSignedIn()
+          && isChoirFeedbackNotification()
+        )
+        || (
+          isPlanAdmin()
+          && isServiceNotification()
+        )
+        || (
+          isScripturePreparation()
+          && isScripturePreparationNotification()
+        )
+        || (
+          isAiBibleReadingAdmin()
+          && isAiBibleReadingNotification()
+        )
+        || (
+          isDanishLanguageAdmin()
+          && isDanishLanguageNotification()
+        );
+
+      allow update, delete:
+        if isChurchAdmin();
+    }
+
+    match /hymnbookGeet/{geetId} {
+      allow read:
+        if isSignedIn()
+        || resource.data.active == true;
+
+      allow create:
+        if (canPrepareChoir() || isChurchAdmin())
+        && request.resource.data.type == 'geet'
+        && request.resource.data.urduTitle is string
+        && request.resource.data.romanTitle is string
+        && request.resource.data.content is string
+        && request.resource.data.createdBy == request.auth.uid;
+
+      allow update, delete:
+        if canPrepareChoir() || isChurchAdmin();
+    }
+
+
+    match /hymnbookEdits/{editId} {
+      allow read:
+        if isSignedIn()
+        || resource.data.active == true;
+
+      allow create:
+        if (canPrepareChoir() || isChurchAdmin())
+        && request.resource.data.sourcePath is string
+        && request.resource.data.type in ['geet', 'zaboor']
+        && request.resource.data.urduTitle is string
+        && request.resource.data.romanTitle is string
+        && request.resource.data.content is string
+        && request.resource.data.active == true
+        && request.resource.data.createdBy == request.auth.uid;
+
+      allow update:
+        if (canPrepareChoir() || isChurchAdmin())
+        && request.resource.data.sourcePath == resource.data.sourcePath
+        && request.resource.data.type in ['geet', 'zaboor']
+        && request.resource.data.urduTitle is string
+        && request.resource.data.romanTitle is string
+        && request.resource.data.content is string;
+
+      allow delete:
+        if canPrepareChoir() || isChurchAdmin();
+    }
+
+
+    match /hymnbookRevisions/{revisionId} {
+      allow read:
+        if canPrepareChoir() || isChurchAdmin();
+
+      allow create:
+        if (canPrepareChoir() || isChurchAdmin())
+        && request.resource.data.hymnKey is string
+        && request.resource.data.sourceType in ['built-in', 'admin-geet']
+        && request.resource.data.hymnType in ['geet', 'zaboor']
+        && request.resource.data.urduTitle is string
+        && request.resource.data.romanTitle is string
+        && request.resource.data.content is string
+        && request.resource.data.savedBy == request.auth.uid;
+
+      allow update:
+        if false;
+
+      allow delete:
+        if isChurchAdmin();
+    }
+
+
+    match /choirPlans/{planId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update:
+        if canPrepareChoir();
+
+      allow delete:
+        if isChoirAdmin();
+    }
+
+
+    match /choirPlanFeedback/{feedbackId} {
+      allow read:
+        if canPrepareChoir();
+
+      allow create:
+        if isSignedIn()
+        && request.resource.data.uid == request.auth.uid;
+
+      allow update, delete:
+        if canPrepareChoir();
+    }
+
+    match /servicePlans/{planId} {
+      allow read:
+        if isSignedIn()
+        || resource.data.active == true;
+
+      allow create, update, delete:
+        if isPlanAdmin();
+    }
+
+    match /liveSermonSessions/{planId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update, delete:
+        if canManageLiveSermonTranslation();
+
+      match /segments/{segmentId} {
+        allow read:
+          if isSignedIn();
+
+        allow create:
+          if canManageLiveSermonTranslation()
+          && request.resource.data.planId == planId
+          && request.resource.data.sessionId == get(
+            /databases/$(database)/documents/liveSermonSessions/$(planId)
+          ).data.sessionId
+          && get(
+            /databases/$(database)/documents/liveSermonSessions/$(planId)
+          ).data.active == true;
+
+        allow update, delete:
+          if canManageLiveSermonTranslation();
+      }
+    }
+
+    match /sermonVocabularySuggestions/{suggestionId} {
+      allow read, create, update, delete:
+        if canManageLiveSermonTranslation();
+    }
+
+    match /learnedChurchVocabulary/{entryId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update, delete:
+        if canManageLiveSermonTranslation();
+    }
+
+    match /scripturePreparations/{preparationId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update:
+        if isScripturePreparation();
+
+      allow delete:
+        if isScripturePreparation();
+    }
+
+    match /scripturePreparationMessages/{messageId} {
+      allow read: if canDiscussScripturePreparation();
+      allow create: if canDiscussScripturePreparation()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.message is string
+        && validScripturePreparationMessageAudio();
+      allow update, delete: if isScripturePreparation();
+    }
+
+    match /dailyDevotions/{devotionId} {
+      allow read:
+        if isDailyDevotionAdmin()
+        || (
+          isSignedIn()
+          && resource.data.status == 'approved'
+          && resource.data.published == true
+        );
+
+      allow create, update, delete:
+        if isDailyDevotionAdmin();
+    }
+
+    match /aiBibleReadings/{readingId} {
+      allow read:
+        if isAiBibleReadingAdmin()
+        || (
+          isSignedIn()
+          && resource.data.status == 'approved'
+          && resource.data.published == true
+        );
+
+      allow create, update, delete:
+        if isAiBibleReadingAdmin();
+    }
+
+    match /youthEvents/{eventId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update, delete:
+        if isYouthAdmin();
+    }
+
+    match /youthAnnouncements/{announcementId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update, delete:
+        if isYouthAdmin();
+    }
+
+    match /youthEventResponses/{responseId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update:
+        if isSignedIn()
+        && request.resource.data.uid == request.auth.uid;
+
+      allow delete:
+        if isYouthAdmin();
+    }
+
+    match /sundaySchoolClasses/{classId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update, delete:
+        if isSundaySchoolAdmin();
+    }
+
+    match /sundaySchoolAnnouncements/{announcementId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update, delete:
+        if isSundaySchoolAdmin();
+    }
+
+    match /sundaySchoolResources/{resourceId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update:
+        if canTeachSundaySchool();
+
+      allow delete:
+        if isSundaySchoolAdmin();
+    }
+
+    match /sundaySchoolGallery/{photoId} {
+      allow read:
+        if isSignedIn();
+
+      allow create:
+        if canTeachSundaySchool()
+        && request.resource.data.createdBy == request.auth.uid;
+
+      allow update, delete:
+        if isSundaySchoolAdmin();
+    }
+
+    match /sundaySchoolTeachers/{teacherId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update, delete:
+        if isSundaySchoolAdmin();
+    }
+
+    match /sundaySchoolTeacherMessages/{messageId} {
+      allow read:
+        if canTeachSundaySchool();
+
+      allow create:
+        if canTeachSundaySchool()
+        && request.resource.data.uid == request.auth.uid
+        && validSundaySchoolMessageAudio();
+
+      allow update, delete:
+        if isSundaySchoolAdmin();
+    }
+
+    match /danishLanguageClasses/{classId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update, delete:
+        if isDanishLanguageAdmin();
+    }
+
+    match /danishLanguageAnnouncements/{announcementId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update, delete:
+        if isDanishLanguageAdmin();
+    }
+
+    match /danishLanguageMaterials/{materialId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update, delete:
+        if isDanishLanguageAdmin();
+    }
+
+    match /danishLanguageStudents/{studentId} {
+      allow read:
+        if isDanishLanguageAdmin();
+
+      allow create, update, delete:
+        if isDanishLanguageAdmin();
+    }
+
+    match /danishLanguageMaterialMessages/{messageId} {
+      allow read:
+        if canDiscussDanishLanguage();
+      allow create:
+        if canDiscussDanishLanguage()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.get('message', '') is string
+        && request.resource.data.get('audioBase64', '') is string
+        && request.resource.data.get('audioBase64', '').size() <= 956000;
+      allow update, delete:
+        if isDanishLanguageAdmin();
+    }
+
+    match /prayerRequests/{requestId} {
+      allow read:
+        if canManagePrayer()
+        || (
+          isSignedIn()
+          && resource.data.status == 'approved'
+          && resource.data.visibility == 'church'
+        )
+        || (
+          isSignedIn()
+          && resource.data.createdBy == request.auth.uid
+        );
+
+      allow create:
+        if isSignedIn()
+        && request.resource.data.createdBy == request.auth.uid;
+
+      allow update:
+        if canManagePrayer();
+
+      allow delete:
+        if isPrayerAdmin();
+    }
+
+    match /prayerMeetings/{meetingId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update:
+        if canManagePrayer();
+
+      allow delete:
+        if isPrayerAdmin();
+    }
+
+    match /prayerAnnouncements/{announcementId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update:
+        if canManagePrayer();
+
+      allow delete:
+        if isPrayerAdmin();
+    }
+
+    match /prayerResources/{resourceId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update:
+        if canManagePrayer();
+
+      allow delete:
+        if isPrayerAdmin();
+    }
+
+    match /prayerMeetingResponses/{responseId} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update:
+        if isSignedIn()
+        && request.resource.data.uid == request.auth.uid;
+
+      allow delete:
+        if canManagePrayer();
+    }
+  }
+}

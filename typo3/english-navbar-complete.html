@@ -1,0 +1,599 @@
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+    box-sizing: border-box;
+    box-shadow: none !important;
+}
+
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    padding-top: 125px !important;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 125px;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: #fff;
+    z-index: 999998;
+    pointer-events: none;
+}
+
+/* Hide original website navigation without hiding custom English navbar */
+body > header:not(#danish-navbar),
+body > nav:not(#danish-navbar),
+.main-navigation,
+#site-navigation,
+.mobile-menu:not(#danishDropdown),
+.mobile-nav,
+.menu-toggle,
+button[aria-label="Menu"] {
+    display: none !important;
+}
+
+/* Hide breadcrumbs */
+.breadcrumb,
+.breadcrumbs,
+#breadcrumb,
+.typo3-breadcrumb,
+nav[aria-label="breadcrumb"],
+.you-are-here,
+[class*="breadcrumb"],
+[class*="Bread"],
+[class*="path"],
+[id*="breadcrumb"] {
+    display: none !important;
+}
+
+#page,
+.page,
+.site,
+.site-wrapper,
+.main-content,
+main {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Main fixed navbar */
+#danish-navbar {
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    background: #fff;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999999;
+    display: block !important;
+    visibility: visible !important;
+}
+
+/* Desktop layout */
+#danish-navbar .top-bar {
+    height: 125px;
+    display: grid !important;
+    grid-template-columns: 160px 1fr 160px;
+    align-items: center;
+    padding: 8px 0;
+    max-width: 1180px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Logo */
+#danish-navbar .logo-container {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start;
+    grid-column: 1;
+    padding-left: 20px;
+}
+
+#danish-navbar .logo {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#danish-navbar .logo img {
+    height: 120px;
+    width: auto;
+    max-width: 130px;
+    display: block !important;
+    object-fit: contain;
+}
+
+/* Menu container */
+#danish-navbar .menu-container {
+    grid-column: 2;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+/* Desktop menu */
+#danish-navbar .desktop-menu {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+    text-align: center;
+    font-size: 14px;
+}
+
+#danish-navbar .desktop-menu a,
+#danish-navbar .mobile-dropdown a {
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    padding: 8px 0;
+    white-space: nowrap;
+    position: relative;
+    font-weight: 500;
+    text-decoration: none;
+    color: #000 !important;
+    display: inline-block;
+}
+
+/* Hover and active line */
+#danish-navbar .desktop-menu a::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #000;
+    transition: width 0.3s ease;
+}
+
+#danish-navbar .desktop-menu a:hover::after,
+#danish-navbar .desktop-menu a.active::after,
+#danish-navbar .has-submenu:hover > .submenu-parent::after {
+    width: 100%;
+}
+
+#danish-navbar .desktop-menu a:hover,
+#danish-navbar .mobile-dropdown a:hover {
+    opacity: 0.7;
+}
+
+/* Desktop submenu */
+#danish-navbar .has-submenu {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#danish-navbar .has-submenu::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    height: 15px;
+}
+
+#danish-navbar .submenu-parent {
+    display: flex !important;
+    align-items: center;
+    gap: 6px;
+}
+
+#danish-navbar .submenu-icon {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1;
+}
+
+#danish-navbar .submenu {
+    position: absolute;
+    top: calc(100% + 15px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    min-width: 220px;
+    display: none;
+    flex-direction: column;
+    padding: 12px 20px;
+    z-index: 999999;
+    text-align: left;
+}
+
+#danish-navbar .has-submenu:hover .submenu {
+    display: flex;
+}
+
+#danish-navbar .submenu a {
+    padding: 10px 0;
+    display: block;
+    width: 100%;
+    color: #0AA382 !important;
+    font-weight: 500;
+}
+
+/* Mobile button */
+#danish-navbar .mobile-button {
+    display: none;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 7px;
+    border: 0;
+    background: transparent;
+    padding: 0;
+}
+
+#danish-navbar .mobile-button span {
+    width: 28px;
+    height: 2px;
+    background: #000;
+    border-radius: 10px;
+    display: block;
+}
+
+/* Mobile dropdown */
+#danish-navbar .mobile-dropdown {
+    display: none;
+    flex-direction: column;
+    text-align: left;
+    font-size: 14px;
+    padding: 10px 25px 20px;
+    background: #fff;
+    width: 100%;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+}
+
+#danish-navbar .mobile-dropdown.show {
+    display: flex !important;
+}
+
+#danish-navbar .mobile-dropdown a {
+    display: block !important;
+    width: 100%;
+    padding: 14px 0;
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+}
+
+#danish-navbar .mobile-dropdown a:last-child {
+    border-bottom: none !important;
+}
+
+/* Mobile submenu */
+#danish-navbar .mobile-submenu {
+    display: none;
+    flex-direction: column;
+    padding-left: 15px;
+}
+
+#danish-navbar .mobile-submenu.show {
+    display: flex;
+}
+
+#danish-navbar .mobile-submenu a {
+    color: #0AA382 !important;
+    font-weight: 500;
+}
+
+#danish-navbar .submenu-toggle {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+}
+
+#danish-navbar .submenu-toggle a {
+    flex: 1;
+    border-bottom: none !important;
+}
+
+#danish-navbar .submenu-toggle button {
+    width: 45px;
+    height: 45px;
+    border: 0;
+    background: transparent;
+    color: #000;
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+    body {
+        padding-top: 120px !important;
+    }
+
+    body::before {
+        top: 120px;
+        height: 8px;
+        background: #fff;
+    }
+
+    #danish-navbar .top-bar {
+        height: 120px;
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 20px 2px;
+        max-width: none;
+    }
+
+    #danish-navbar .logo-container {
+        justify-content: flex-start;
+        padding-left: 0;
+        margin-right: auto;
+        position: relative;
+        left: 10px;
+        top: 4px;
+        transform: none;
+    }
+
+    #danish-navbar .menu-container {
+        display: none !important;
+    }
+
+    #danish-navbar .mobile-button {
+        display: flex !important;
+        margin-left: auto;
+    }
+
+    #danish-navbar .logo img {
+        height: 110px;
+        max-width: 150px;
+    }
+}
+
+/* ==========================================
+   PRAYER REQUEST LINK — WARM AMBER THEME
+   ========================================== */
+#danish-navbar .desktop-menu a.prayer-request-link,
+#danish-navbar .mobile-dropdown a.prayer-request-link {
+    color: #D97706 !important;
+    font-weight: 600 !important;
+}
+
+#danish-navbar .desktop-menu a.prayer-request-link:hover,
+#danish-navbar .mobile-dropdown a.prayer-request-link:hover {
+    color: #B45309 !important;
+    opacity: 1 !important;
+}
+
+#danish-navbar .desktop-menu a.prayer-request-link::after {
+    background: #D97706 !important;
+}
+</style>
+
+<div id="danish-navbar">
+    <div class="top-bar">
+        <div class="logo-container">
+            <a class="logo" href="https://www.emdrupkirke.dk/pakistan">
+                <img src="https://www.emdrupkirke.dk/fileadmin/group/262/Pakistan/Logo/logo.png" alt="Logo">
+            </a>
+        </div>
+
+        <div class="menu-container">
+            <div class="desktop-menu">
+                <a href="https://www.emdrupkirke.dk/urdu/uenglish/ehome">Home</a>
+                <a href="https://www.emdrupkirke.dk/urdu/uenglish/eservice">Services</a>
+
+                <div class="has-submenu">
+                    <a href="https://www.emdrupkirke.dk/urdu/uenglish/activities" class="submenu-parent">
+                        Activities <span class="submenu-icon">+</span>
+                    </a>
+
+                    <div class="submenu">
+                        <a href="https://www.emdrupkirke.dk/urdu/uenglish/activities/langschool">Language School</a>
+                        <a href="https://www.emdrupkirke.dk/urdu/uenglish/activities/youth">Youth</a>
+                        <a href="https://www.emdrupkirke.dk/urdu/uenglish/activities/sunsch">Sunday School</a>
+                        <a href="https://www.emdrupkirke.dk/urdu/uenglish/activities/prayer">Prayer Group</a>
+                        <a href="https://www.emdrupkirke.dk/urdu/uenglish/activities/woman">Women's Evening</a>
+                    </div>
+                </div>
+
+                <a href="https://www.emdrupkirke.dk/urdu/uenglish/calendar">Calendar</a>
+                <a href="https://www.emdrupkirke.dk/urdu/uenglish/about">About Us</a>
+                <a href="https://www.emdrupkirke.dk/urdu/uenglish/contact">Contact</a>
+                <a href="https://www.emdrupkirke.dk/urdu/uenglish/member">Become a Member</a>
+                <a href="https://www.emdrupkirke.dk/urdu/uenglish/prayerrequest" class="prayer-request-link">Prayer Request</a>
+            </div>
+        </div>
+
+        <button
+            type="button"
+            class="mobile-button"
+            id="danishMobileButton"
+            aria-label="Open navigation menu"
+            aria-controls="danishDropdown"
+            aria-expanded="false"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+
+    <div class="mobile-dropdown" id="danishDropdown">
+        <a href="https://www.emdrupkirke.dk/urdu/uenglish/ehome">Home</a>
+        <a href="https://www.emdrupkirke.dk/urdu/uenglish/eservice">Services</a>
+
+        <div class="mobile-submenu-wrapper">
+            <div class="submenu-toggle">
+                <a href="https://www.emdrupkirke.dk/urdu/uenglish/activities">Activities</a>
+                <button
+                    type="button"
+                    id="danishSubmenuToggle"
+                    aria-label="Open Activities submenu"
+                    aria-controls="danishMobileSubmenu"
+                    aria-expanded="false"
+                >+</button>
+            </div>
+
+            <div class="mobile-submenu" id="danishMobileSubmenu">
+                <a href="https://www.emdrupkirke.dk/urdu/uenglish/activities/langschool">Language School</a>
+                <a href="https://www.emdrupkirke.dk/urdu/uenglish/activities/youth">Youth</a>
+                <a href="https://www.emdrupkirke.dk/urdu/uenglish/activities/sunsch">Sunday School</a>
+                <a href="https://www.emdrupkirke.dk/urdu/uenglish/activities/prayer">Prayer Group</a>
+                <a href="https://www.emdrupkirke.dk/pakistan/uenglish/activities/woman">Women's Evening</a>
+            </div>
+        </div>
+
+        <a href="https://www.emdrupkirke.dk/urdu/uenglish/calendar">Calendar</a>
+        <a href="https://www.emdrupkirke.dk/urdu/uenglish/about">About Us</a>
+        <a href="https://www.emdrupkirke.dk/urdu/uenglish/contact">Contact</a>
+        <a href="https://www.emdrupkirke.dk/urdu/uenglish/member">Become a Member</a>
+        <a href="https://www.emdrupkirke.dk/urdu/uenglish/prayerrequest" class="prayer-request-link">Prayer Request</a>
+    </div>
+</div>
+
+<script>
+(function () {
+    function initEnglishNavbar() {
+        const currentPage = window.location.href.split('#')[0].replace(/\/$/, '');
+        const menuItems = document.querySelectorAll('#danish-navbar a');
+        const activitiesParent = document.querySelector('#danish-navbar .desktop-menu .submenu-parent');
+        const activityPaths = [
+            'https://www.emdrupkirke.dk/urdu/uenglish/activities',
+            'https://www.emdrupkirke.dk/urdu/uenglish/activities/langschool',
+            'https://www.emdrupkirke.dk/urdu/uenglish/activities/youth',
+            'https://www.emdrupkirke.dk/urdu/uenglish/activities/sunsch',
+            'https://www.emdrupkirke.dk/urdu/uenglish/activities/prayer',
+            'https://www.emdrupkirke.dk/urdu/uenglish/activities/woman'
+        ];
+
+        menuItems.forEach(function (item) {
+            const itemUrl = item.href.split('#')[0].replace(/\/$/, '');
+
+            if (itemUrl === currentPage) {
+                item.classList.add('active');
+            }
+        });
+
+        if (activitiesParent && activityPaths.indexOf(currentPage) !== -1) {
+            activitiesParent.classList.add('active');
+        }
+
+        const mobileButton = document.getElementById('danishMobileButton');
+        const mobileDropdown = document.getElementById('danishDropdown');
+        const submenuToggle = document.getElementById('danishSubmenuToggle');
+        const mobileSubmenu = document.getElementById('danishMobileSubmenu');
+
+        if (mobileButton && mobileDropdown) {
+            mobileButton.addEventListener('click', function () {
+                const isOpen = mobileDropdown.classList.toggle('show');
+                mobileButton.setAttribute('aria-expanded', String(isOpen));
+                mobileButton.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+            });
+        }
+
+        if (submenuToggle && mobileSubmenu) {
+            submenuToggle.addEventListener('click', function () {
+                const isOpen = mobileSubmenu.classList.toggle('show');
+
+                submenuToggle.textContent = isOpen ? '-' : '+';
+                submenuToggle.setAttribute('aria-expanded', String(isOpen));
+                submenuToggle.setAttribute('aria-label', isOpen ? 'Close Activities submenu' : 'Open Activities submenu');
+            });
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initEnglishNavbar);
+    } else {
+        initEnglishNavbar();
+    }
+})();
+</script>
+<script data-member-language="en">
+// Paste using one of the generated HTML blocks, after the existing navbar.
+(function () {
+    const language = document.currentScript.dataset.memberLanguage;
+    const labels = {
+        en: ['Member Login', 'Member Area'],
+        da: ['Medlemslogin', 'Medlemsområde'],
+        ur: ['رکن لاگ اِن', 'اراکین کا حصہ']
+    }[language];
+    if (!labels || window.parent === window) return;
+
+    function start() {
+        const dropdown = document.querySelector('.mobile-dropdown');
+        if (!dropdown || dropdown.querySelector('[data-oneinchrist-members]')) return;
+        const group = document.createElement('div');
+        group.dataset.oneinchristMembers = 'true';
+        group.hidden = true;
+        group.style.setProperty('display', 'none', 'important');
+        group.style.borderTop = '1px solid rgba(0,0,0,.12)';
+        group.lang = language;
+        group.dir = language === 'ur' ? 'rtl' : 'ltr';
+        let appOrigin = null;
+        const links = labels.map(function (label, index) {
+            const link = document.createElement('a');
+            link.href = '#';
+            link.textContent = label;
+            link.style.textAlign = language === 'ur' ? 'right' : 'left';
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                if (!appOrigin) return;
+                window.parent.postMessage({
+                    type: 'oneinchrist:member-menu-action', version: 1,
+                    action: index === 0 ? 'login' : 'area'
+                }, appOrigin);
+                dropdown.classList.remove('show');
+                const toggle = document.querySelector('[aria-controls="' + dropdown.id + '"]');
+                if (toggle) toggle.setAttribute('aria-expanded', 'false');
+            });
+            group.appendChild(link);
+            return link;
+        });
+        dropdown.appendChild(group);
+        // Only the local app shell may enable these links. A public website
+        // visit never receives this handshake and keeps them hidden.
+        const allowed = function (origin) {
+            return origin === 'capacitor://localhost' || origin === 'https://localhost' ||
+                /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+        };
+        window.addEventListener('message', function (event) {
+            if (event.source !== window.parent || !allowed(event.origin)) return;
+            const data = event.data;
+            if (!data || data.version !== 1) return;
+            if (data.type === 'oneinchrist:member-menu-probe') {
+                window.parent.postMessage({ type: 'oneinchrist:member-menu-ready', version: 1 }, event.origin);
+            } else if (data.type === 'oneinchrist:member-menu-state') {
+                appOrigin = event.origin;
+                group.hidden = false;
+                group.style.setProperty('display', 'block', 'important');
+                links[1].style.setProperty('display', data.memberAreaAvailable ? 'block' : 'none', 'important');
+            }
+        });
+        // No user information is included in the initial readiness message.
+        window.parent.postMessage({ type: 'oneinchrist:member-menu-ready', version: 1 }, '*');
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+    else start();
+})();
+
+</script>
+

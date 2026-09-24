@@ -1,0 +1,129 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function hasAdminAccess() {
+      return isSignedIn()
+        && firestore.exists(
+          /databases/(default)/documents/adminAccess/$(request.auth.uid)
+        );
+    }
+
+    function adminAccess() {
+      return firestore.get(
+        /databases/(default)/documents/adminAccess/$(request.auth.uid)
+      ).data;
+    }
+
+    function isChurchAdmin() {
+      return hasAdminAccess()
+        && adminAccess().churchAdmin == true;
+    }
+
+    function isDanishLanguageAdmin() {
+      return hasAdminAccess()
+        && (
+          adminAccess().languageSchoolAdmin == true
+          || adminAccess().churchAdmin == true
+        );
+    }
+
+    function canPrepareChoir() {
+      return hasAdminAccess()
+        && (
+          adminAccess().choirAdmin == true
+          || adminAccess().choirPlanning == true
+          || adminAccess().churchAdmin == true
+        );
+    }
+
+    function isSundaySchoolAdmin() {
+      return hasAdminAccess()
+        && (
+          (
+            'sundaySchoolAdmin' in adminAccess()
+            && adminAccess().sundaySchoolAdmin == true
+          )
+          || (
+            'churchAdmin' in adminAccess()
+            && adminAccess().churchAdmin == true
+          )
+        );
+    }
+
+    function canTeachSundaySchool() {
+      return isSundaySchoolAdmin()
+        || (
+          hasAdminAccess()
+          && 'sundaySchoolTeacher' in adminAccess()
+          && adminAccess().sundaySchoolTeacher == true
+        );
+    }
+
+    function validSundaySchoolMedia() {
+      return request.resource.size > 0
+        && (
+          (
+            request.resource.contentType.matches('image/.*')
+            && request.resource.size <= 10 * 1024 * 1024
+          )
+          || (
+            request.resource.contentType.matches('video/.*')
+            && request.resource.size <= 100 * 1024 * 1024
+          )
+        );
+    }
+
+    match /danishLanguageMaterials/{userId}/{fileName} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update, delete:
+        if isDanishLanguageAdmin()
+        && request.auth.uid == userId;
+    }
+
+    match /foodVoiceMessages/{userId}/{fileName} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update, delete:
+        if hasAdminAccess()
+        && adminAccess().foodAdmin == true
+        && request.auth.uid == userId;
+    }
+
+    match /choirLyrics/{userId}/{fileName} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update, delete:
+        if canPrepareChoir()
+        && request.auth.uid == userId;
+    }
+
+    match /sundaySchoolGallery/{userId}/{fileName} {
+      allow read:
+        if isSignedIn();
+
+      allow create, update:
+        if canTeachSundaySchool()
+        && request.auth.uid == userId
+        && validSundaySchoolMedia();
+
+      allow delete:
+        if canTeachSundaySchool()
+        && request.auth.uid == userId;
+    }
+
+    match /{allPaths=**} {
+      allow read, write:
+        if false;
+    }
+  }
+}

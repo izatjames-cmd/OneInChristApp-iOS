@@ -1,0 +1,31 @@
+{
+  "appId": "org.oneinchristchurch.app",
+  "appName": "One in Christ Church",
+  "webDir": "dist",
+  "plugins": {
+    "FirebaseAuthentication": {
+      "skipNativeAuth": false,
+      "providers": []
+    }
+  },
+  "experimental": {
+    "ios": {
+      "spm": {
+        "packageOptions": {
+          "@capacitor-firebase/authentication": {
+            "symlink": true
+          },
+          "@capacitor-firebase/firestore": {
+            "symlink": true
+          },
+          "@capacitor-firebase/functions": {
+            "symlink": true
+          },
+          "@capacitor-firebase/storage": {
+            "symlink": true
+          }
+        }
+      }
+    }
+  }
+}

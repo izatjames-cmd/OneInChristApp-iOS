@@ -1,0 +1,1531 @@
+@font-face {
+  font-family: "Jameel Noori Nastaliq";
+  src: url("/fonts/Jameel-Noori-Nastaliq.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+body.desktop-admin-page,
+body.desktop-admin-page #app {
+  height: 100%;
+  overflow: hidden;
+}
+
+.webview-shell {
+  width: 100%;
+  height: 100%;
+}
+
+#church-site {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.service-plan-section {
+  margin: 22px 0;
+  padding: 16px;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+  background: #fff8e8;
+}
+
+.service-plan-section h3 {
+  margin-top: 0;
+  margin-bottom: 14px;
+}
+
+.service-plan-section label,
+#service-plan-form > label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.service-plan-section input,
+.service-plan-section textarea,
+#service-plan-form > input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px;
+  margin: 5px 0 12px;
+  font-size: 16px;
+}
+
+.service-plan-section textarea {
+  resize: vertical;
+}
+
+.urdu-text {
+  font-family: "Jameel Noori Nastaliq", "Noto Naskh Arabic", "Alvi Nastaliq", serif;
+  direction: rtl;
+  text-align: right;
+  line-height: 2.2;
+  font-size: 20px;
+}
+
+.service-plan-urdu-section {
+  direction: rtl;
+  text-align: right;
+}
+
+.service-plan-urdu-section h3,
+.service-plan-urdu-section .urdu-text {
+  font-family: "Jameel Noori Nastaliq", "Noto Naskh Arabic", "Alvi Nastaliq", serif;
+}
+
+.service-plan-urdu-section h3 {
+  line-height: 1.8;
+}
+
+.service-plan-hymn-button {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 11px;
+  border: 0;
+  border-radius: 8px;
+  background: #1f5fbf;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.youth-module .dashboard-card,
+.youth-module .event-card,
+.youth-module .announcement-card,
+.youth-module .devotion-card {
+  margin: 14px 0;
+  padding: 16px;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+  background: #fff8e8;
+}
+
+.youth-module input,
+.youth-module select,
+.youth-module textarea,
+.youth-module button {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 5px 0 10px;
+  font-size: 16px;
+}
+
+.youth-module .event-actions {
+  display: grid;
+  gap: 8px;
+}
+
+.danish-language-module {
+  color: #202124;
+}
+
+.danish-language-header,
+.danish-language-page-header {
+  padding: 4px 2px 10px;
+}
+
+.danish-language-header h1,
+.danish-language-page-header h2 {
+  margin: 0 0 6px;
+}
+
+.danish-language-header p,
+.danish-language-page-header p {
+  margin: 0;
+  color: #5f6368;
+  line-height: 1.45;
+}
+
+.danish-language-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.danish-language-module .dashboard-card {
+  margin: 14px 0;
+  padding: 16px;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+  background: #fff8e8;
+}
+
+.danish-language-module input,
+.danish-language-module select,
+.danish-language-module textarea,
+.danish-language-module button {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 5px 0 10px;
+  font-size: 16px;
+}
+
+.danish-language-module textarea {
+  resize: vertical;
+}
+
+.danish-language-admin-panel {
+  margin: 18px 0 24px;
+  padding-top: 4px;
+  border-top: 1px solid #e6e6e6;
+}
+
+.danish-language-admin-grid,
+.danish-language-list {
+  display: grid;
+  gap: 12px;
+}
+
+.danish-language-form-card h3,
+.danish-language-admin-item h4 {
+  margin-top: 0;
+}
+
+.danish-language-action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.danish-language-action-grid button {
+  margin: 0;
+}
+
+@media (min-width: 720px) {
+  .danish-language-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .danish-language-admin-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
+.prayer-module {
+  color: #202124;
+}
+
+.prayer-header,
+.prayer-page-header {
+  padding: 4px 2px 10px;
+}
+
+.prayer-header h1,
+.prayer-page-header h2 {
+  margin: 0 0 6px;
+}
+
+.prayer-header p,
+.prayer-page-header p,
+.prayer-panel-header p {
+  margin: 0;
+  color: #5f6368;
+  line-height: 1.45;
+}
+
+.prayer-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.prayer-module .dashboard-card {
+  margin: 14px 0;
+  padding: 16px;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+  background: #fff8e8;
+}
+
+.prayer-module input,
+.prayer-module select,
+.prayer-module textarea,
+.prayer-module button {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 5px 0 10px;
+  font-size: 16px;
+}
+
+.prayer-module textarea {
+  resize: vertical;
+}
+
+.prayer-admin-panel {
+  margin: 18px 0 24px;
+  padding-top: 4px;
+  border-top: 1px solid #e6e6e6;
+}
+
+.prayer-panel-header {
+  margin-bottom: 10px;
+}
+
+.prayer-panel-header h3 {
+  margin: 0 0 5px;
+}
+
+.prayer-admin-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.prayer-form-card h3,
+.prayer-admin-item h4 {
+  margin-top: 0;
+}
+
+.prayer-list {
+  display: grid;
+  gap: 10px;
+}
+
+.prayer-action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.prayer-action-grid button {
+  margin: 0;
+}
+
+@media (min-width: 720px) {
+  .prayer-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .prayer-admin-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
+.sunday-school-module {
+  color: #202124;
+}
+
+.sunday-school-header,
+.sunday-school-page-header {
+  padding: 4px 2px 10px;
+}
+
+.sunday-school-header h1,
+.sunday-school-page-header h2 {
+  margin: 0 0 6px;
+}
+
+.sunday-school-header p,
+.sunday-school-page-header p,
+.sunday-school-panel-header p {
+  margin: 0;
+  color: #5f6368;
+  line-height: 1.45;
+}
+
+.sunday-school-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.sunday-school-module .dashboard-card {
+  margin: 14px 0;
+  padding: 16px;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+  background: #fff8e8;
+}
+
+.sunday-school-module input,
+.sunday-school-module select,
+.sunday-school-module textarea,
+.sunday-school-module button {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 5px 0 10px;
+  font-size: 16px;
+}
+
+.sunday-school-module textarea {
+  resize: vertical;
+}
+
+.sunday-school-card img,
+.sunday-school-photo-card img,
+.sunday-school-teacher-card img {
+  display: block;
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.sunday-school-photo-card video,
+.sunday-school-media-preview img,
+.sunday-school-media-preview video {
+  display: block;
+  width: 100%;
+  max-height: 260px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.sunday-school-gallery-strip {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.sunday-school-gallery-strip img,
+.sunday-school-gallery-strip video {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+.sunday-school-gallery-selector {
+  display: block;
+  margin: 12px 0;
+  font-weight: 600;
+}
+
+.sunday-school-gallery-selector select {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.sunday-school-gallery-event {
+  margin: 12px 0;
+  border: 1px solid #ded6c5;
+  border-radius: 10px;
+  background: #fff8e8;
+  overflow: hidden;
+  box-shadow: 0 5px 18px rgba(98, 76, 36, .12);
+}
+
+.sunday-school-gallery-event summary {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  cursor: pointer;
+  padding: 16px;
+  list-style-position: inside;
+}
+
+.sunday-school-gallery-event summary span {
+  flex: 1;
+  color: #4b3920;
+  font-size: 17px;
+}
+
+.sunday-school-create-gallery .page-header,
+.sunday-school-view-only-gallery .page-header {
+  padding: 18px;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, #6c4d2c, #b1844a);
+}
+
+.sunday-school-create-gallery .page-header h2,
+.sunday-school-view-only-gallery .page-header h2 {
+  color: #fff;
+}
+
+.sunday-school-create-gallery .dashboard-card {
+  border: 0;
+  box-shadow: 0 6px 20px rgba(98, 76, 36, .15);
+}
+
+.sunday-school-view-only-gallery {
+  padding-bottom: 18px;
+}
+
+.sunday-school-gallery-event .sunday-school-gallery-strip {
+  padding: 12px;
+  background: #f5eddd;
+}
+
+.sunday-school-gallery-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 100001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, .9);
+}
+
+.sunday-school-gallery-viewer img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+}
+
+.sunday-school-gallery-viewer figure {
+  max-width: 86vw;
+  margin: 0;
+  text-align: center;
+}
+
+.sunday-school-gallery-viewer figcaption {
+  color: white;
+  margin-top: 10px;
+}
+
+.sunday-school-gallery-viewer [data-prev],
+.sunday-school-gallery-viewer [data-next] {
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 32px;
+}
+
+.sunday-school-gallery-viewer [data-prev] { left: 12px; right: auto; }
+.sunday-school-gallery-viewer [data-next] { right: 12px; }
+
+.sunday-school-gallery-viewer button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: auto;
+  padding: 10px 14px;
+}
+
+.danish-language-message-list {
+  max-height: 300px;
+  overflow-y: auto;
+  margin: 12px 0;
+}
+
+.danish-language-message {
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ded6c5;
+  border-radius: 8px;
+  background: #fffdf8;
+}
+
+.danish-language-message audio {
+  width: 100%;
+}
+
+.sunday-school-gallery-upload fieldset {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.sunday-school-teacher-message-list {
+  max-height: 320px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.sunday-school-teacher-message {
+  padding: 12px;
+  margin: 10px 0;
+  background: #fffdf8;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.sunday-school-teacher-message.is-own {
+  border-color: #8d7448;
+}
+
+.sunday-school-message-meta {
+  font-size: 14px;
+  color: #5f6368;
+}
+
+.sunday-school-message-text {
+  white-space: pre-wrap;
+}
+
+.sunday-school-voice-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sunday-school-voice-controls button {
+  flex: 1 1 120px;
+  width: auto;
+}
+
+.sunday-school-teacher-chat audio {
+  width: 100%;
+  max-width: 100%;
+}
+
+.sunday-school-admin-panel {
+  margin: 18px 0 24px;
+  padding-top: 4px;
+  border-top: 1px solid #e6e6e6;
+}
+
+.sunday-school-panel-header {
+  margin-bottom: 10px;
+}
+
+.sunday-school-panel-header h3 {
+  margin: 0 0 5px;
+}
+
+.sunday-school-admin-grid,
+.sunday-school-list,
+.sunday-school-gallery-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.sunday-school-form-card h3,
+.sunday-school-admin-item h4 {
+  margin-top: 0;
+}
+
+.sunday-school-action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.sunday-school-action-grid button {
+  margin: 0;
+}
+
+@media (min-width: 720px) {
+  .sunday-school-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .sunday-school-admin-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .sunday-school-gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.church-admin-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.55);
+  align-items: stretch;
+  justify-content: center;
+}
+
+.church-admin-panel {
+  width: min(1120px, 100%);
+  height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 18px;
+  background: #f6f2eb;
+  color: #202124;
+}
+
+.church-admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.church-admin-header h2 {
+  margin: 0 0 5px;
+}
+
+.church-admin-header p {
+  margin: 0;
+  color: #5f6368;
+}
+
+.church-admin-tabs,
+.church-admin-grid {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.church-admin-tabs {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.church-admin-tabs button,
+.church-admin-panel button,
+.church-admin-panel select {
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.church-admin-tabs button.active {
+  background: #1f5fbf;
+  color: #ffffff;
+}
+
+.church-admin-status,
+.church-admin-card-status {
+  min-height: 20px;
+  color: #6b3f00;
+  line-height: 1.4;
+}
+
+.church-admin-card {
+  margin: 14px 0;
+  padding: 16px;
+  border: 1px solid #ded7cb;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.church-admin-card h3,
+.church-admin-member-card h4 {
+  margin-top: 0;
+}
+
+.church-admin-stat {
+  margin: 8px 0 0;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.church-admin-member-card {
+  margin: 12px 0;
+  padding: 14px;
+  border: 1px solid #e2ddd4;
+  border-radius: 8px;
+  background: #fff8e8;
+}
+
+.church-admin-member-card.pending {
+  background: #fff8e8;
+}
+
+.church-admin-member-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.church-admin-member-heading h4,
+.church-admin-member-heading p,
+.church-admin-member-meta {
+  margin: 0 0 8px;
+}
+
+.church-admin-member-heading p,
+.church-admin-member-meta {
+  color: #5f6368;
+}
+
+.church-admin-member-card label {
+  display: block;
+  margin: 12px 0;
+  font-weight: 600;
+}
+
+.church-admin-member-card select {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.church-admin-member-options {
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid #ded7cb;
+  border-radius: 8px;
+}
+
+.church-admin-member-options legend {
+  padding: 0 6px;
+  font-weight: 700;
+}
+
+.church-admin-member-card .church-admin-permission-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  font-weight: 500;
+}
+
+.church-admin-permission-option input {
+  width: auto;
+}
+
+.church-admin-badges {
+  display: grid;
+  gap: 12px;
+}
+
+.church-admin-badge-group strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.church-admin-badge {
+  display: inline-block;
+  margin: 0 6px 6px 0;
+  padding: 5px 8px;
+  border-radius: 8px;
+  background: #fff8e8;
+  border: 1px solid #eadfc8;
+  font-size: 14px;
+}
+
+.church-admin-muted {
+  color: #5f6368;
+}
+
+.church-admin-member-actions {
+  display: grid;
+  gap: 8px;
+}
+
+.church-admin-quick-actions {
+  display: grid;
+  gap: 8px;
+}
+
+@media (min-width: 720px) {
+  .church-admin-tabs {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  .church-admin-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .church-admin-member-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .church-admin-quick-actions {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.desktop-admin {
+  height: 100vh;
+  overflow: hidden;
+  background: #f7f1e5;
+  color: #1f2933;
+  font-family: Arial, sans-serif;
+}
+
+.desktop-admin-login {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.desktop-admin-login[hidden],
+.desktop-admin-panel[hidden] {
+  display: none;
+}
+
+.desktop-admin-login-card {
+  width: min(420px, 100%);
+  padding: 28px;
+  border: 1px solid #ded7cb;
+  border-radius: 8px;
+  background: #fffdf8;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .12);
+  box-sizing: border-box;
+}
+
+.desktop-admin-login-card h1 {
+  margin: 0 0 8px;
+}
+
+.desktop-admin-login-card p {
+  margin: 0 0 18px;
+  color: #5f6368;
+}
+
+.desktop-admin-login-card form {
+  display: grid;
+  gap: 12px;
+}
+
+.desktop-admin-login-card input,
+.desktop-admin-login-card button,
+.desktop-admin-panel button,
+.desktop-admin-panel select {
+  box-sizing: border-box;
+  padding: 11px 12px;
+  border: 1px solid #cfc7b8;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.desktop-admin-login-card button,
+.desktop-admin-panel button {
+  border-color: #486322;
+  background: #5f7f2b;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.desktop-admin-login-card button:hover,
+.desktop-admin-panel button:hover {
+  background: #486322;
+  color: #ffffff;
+}
+
+.desktop-admin-panel {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.desktop-admin-sidebar {
+  height: 100vh;
+  overflow-y: auto;
+  padding: 24px 18px;
+  background: #fffdf8;
+  border-right: 1px solid #ded7cb;
+  box-sizing: border-box;
+}
+
+.desktop-admin-sidebar h1 {
+  margin: 0 0 4px;
+  font-size: 24px;
+}
+
+.desktop-admin-sidebar p {
+  margin: 0 0 24px;
+  color: #5f6368;
+}
+
+.desktop-admin-nav {
+  display: grid;
+  gap: 8px;
+}
+
+.desktop-admin-nav button {
+  width: 100%;
+  text-align: left;
+  border-color: transparent;
+  background: transparent;
+  color: #1f2933;
+}
+
+.desktop-admin-nav button.active,
+.desktop-admin-nav button:hover {
+  background: #f0dfbd;
+  color: #1f2933;
+}
+
+.desktop-admin-workspace {
+  min-width: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.desktop-admin-topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.desktop-admin-topbar h2 {
+  margin: 0 0 4px;
+}
+
+.desktop-admin-topbar p {
+  margin: 0;
+  color: #5f6368;
+}
+
+.desktop-admin-status,
+.desktop-admin-card-status {
+  min-height: 22px;
+  color: #6b3f00;
+}
+
+.desktop-admin-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.desktop-admin-stat-card,
+.desktop-admin-card,
+.desktop-admin-member-card {
+  border: 1px solid #ded7cb;
+  border-radius: 8px;
+  background: #fffdf8;
+  box-sizing: border-box;
+}
+
+.desktop-admin-stat-card {
+  padding: 18px;
+}
+
+.desktop-admin-stat-card span {
+  display: block;
+  color: #5f6368;
+  margin-bottom: 8px;
+}
+
+.desktop-admin-stat-card strong {
+  font-size: 34px;
+}
+
+.desktop-admin-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.desktop-admin-grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.desktop-admin-card {
+  padding: 18px;
+}
+
+.desktop-admin-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.desktop-admin-card h3 {
+  margin: 0 0 14px;
+}
+
+.desktop-admin-card-header h3,
+.desktop-admin-card-header p {
+  margin: 0 0 6px;
+}
+
+.desktop-admin-card-header p {
+  color: #5f6368;
+}
+
+.desktop-admin-pagination {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.desktop-admin-pagination button:disabled {
+  border-color: #ded7cb;
+  background: #eee7dc;
+  color: #7a7368;
+  cursor: not-allowed;
+}
+
+.desktop-admin-filter-bar {
+  margin: 0 0 14px;
+}
+
+.desktop-admin-filter-bar input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 12px;
+  border: 1px solid #cfc7b8;
+  border-radius: 8px;
+  background: #ffffff;
+  font: inherit;
+}
+
+.desktop-admin-action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.desktop-admin-list {
+  display: grid;
+  gap: 8px;
+}
+
+.desktop-admin-member-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;
+  background: #fff8e8;
+  color: #1f2933;
+  border-color: #e6d9bf;
+}
+
+.desktop-admin-member-row small {
+  color: #5f6368;
+}
+
+.desktop-admin-table-wrap {
+  overflow-x: auto;
+}
+
+.desktop-admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.desktop-admin-table th,
+.desktop-admin-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e6d9bf;
+  text-align: left;
+  vertical-align: top;
+}
+
+.desktop-admin-member-card {
+  margin: 12px 0;
+  padding: 16px;
+  background: #fff8e8;
+}
+
+.desktop-admin-ministry-card {
+  display: grid;
+  gap: 14px;
+}
+
+.desktop-admin-ministry-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.desktop-admin-ministry-stats span {
+  padding: 12px;
+  border: 1px solid #e6d9bf;
+  border-radius: 8px;
+  background: #fff8e8;
+}
+
+.desktop-admin-ministry-stats strong {
+  display: block;
+  font-size: 28px;
+  color: #2f4a16;
+}
+
+.desktop-admin-ministry-list h4 {
+  margin: 0 0 6px;
+}
+
+.desktop-admin-member-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.desktop-admin-member-heading h4,
+.desktop-admin-member-heading p {
+  margin: 0 0 5px;
+}
+
+.desktop-admin-member-heading p {
+  color: #5f6368;
+}
+
+.desktop-admin-status-pill {
+  align-self: flex-start;
+  padding: 6px 9px;
+  border-radius: 8px;
+  background: #fffdf8;
+  color: #1f2933;
+  font-size: 13px;
+}
+
+.desktop-admin-member-card label {
+  display: block;
+  margin: 12px 0;
+  font-weight: 700;
+}
+
+.desktop-admin-member-card select {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  background: #ffffff;
+}
+
+.desktop-admin-multi-choice {
+  position: relative;
+  margin: 12px 0;
+}
+
+.desktop-admin-panel .desktop-admin-multi-choice-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;
+  border-color: #cfc7b8;
+  background: #ffffff;
+  color: #1f2933;
+  font-weight: 400;
+}
+
+.desktop-admin-panel .desktop-admin-multi-choice-button:hover {
+  background: #fff8e8;
+  color: #1f2933;
+}
+
+.desktop-admin-multi-choice-button strong,
+.desktop-admin-multi-choice-button small {
+  display: block;
+}
+
+.desktop-admin-multi-choice-button small {
+  margin-top: 4px;
+  color: #2f4a16;
+  font-weight: 400;
+}
+
+.desktop-admin-multi-choice-menu {
+  margin-top: 6px;
+  padding: 10px 12px;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.desktop-admin-member-card fieldset {
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid #ded7cb;
+  border-radius: 8px;
+}
+
+.desktop-admin-member-card legend {
+  padding: 0 6px;
+  font-weight: 700;
+}
+
+.desktop-admin-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  font-weight: 400;
+}
+
+.desktop-admin-check input {
+  width: auto;
+}
+
+.desktop-admin-member-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.desktop-admin-badge {
+  display: inline-block;
+  margin: 0 6px 6px 0;
+  padding: 5px 8px;
+  border-radius: 8px;
+  background: #f0dfbd;
+  font-size: 13px;
+}
+
+.desktop-admin-muted {
+  color: #5f6368;
+}
+
+.desktop-admin-debug {
+  max-height: 180px;
+  overflow: auto;
+  padding: 10px;
+  border: 1px solid #ded7cb;
+  border-radius: 8px;
+  background: #fff8e8;
+  color: #4c3a1a;
+  font-size: 12px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+.desktop-admin-sidebar {
+  box-shadow: 4px 0 18px rgba(70, 52, 25, .06);
+}
+
+.desktop-admin-workspace {
+  background: linear-gradient(180deg, #f7f1e5 0%, #f3eee5 100%);
+}
+
+.desktop-admin-topbar {
+  padding: 4px 0 18px;
+  border-bottom: 1px solid #ded7cb;
+}
+
+.desktop-admin-topbar h2 {
+  color: #293817;
+  font-size: 28px;
+  letter-spacing: -.02em;
+}
+
+.desktop-admin-nav button {
+  transition: background .15s ease, transform .15s ease;
+}
+
+.desktop-admin-nav button.active {
+  box-shadow: inset 3px 0 #5f7f2b;
+  font-weight: 700;
+}
+
+.desktop-admin-stat-card,
+.desktop-admin-card,
+.desktop-admin-member-card {
+  box-shadow: 0 5px 18px rgba(70, 52, 25, .06);
+}
+
+.desktop-admin-card h3 {
+  color: #293817;
+  font-size: 19px;
+}
+
+.desktop-admin-form {
+  display: grid;
+  gap: 10px;
+}
+
+.desktop-admin-form input,
+.desktop-admin-form textarea,
+.desktop-admin-form select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 12px;
+  border: 1px solid #cfc7b8;
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+}
+
+.desktop-admin-notification-row {
+  display: grid;
+  gap: 5px;
+  margin: 0 0 10px;
+  padding: 13px;
+  border: 1px solid #e6d9bf;
+  border-radius: 10px;
+  background: #fff8e8;
+}
+
+.desktop-admin-notification-row p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.desktop-admin-notification-row small {
+  color: #6b665d;
+}
+
+.desktop-admin-notification-row button {
+  justify-self: start;
+  padding: 7px 10px;
+  font-size: 13px;
+}
+
+.desktop-admin-content-module-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.desktop-admin-content-module {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid #e6d9bf;
+  border-radius: 10px;
+  background: #fff8e8;
+}
+
+.desktop-admin-content-module h4,
+.desktop-admin-content-module p {
+  margin: 0;
+}
+
+.desktop-admin-content-module p {
+  min-height: 40px;
+  color: #5f6368;
+}
+
+@media (max-width: 700px) {
+  .desktop-admin-content-module-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .desktop-admin-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .desktop-admin-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid #ded7cb;
+  }
+
+  .desktop-admin-nav,
+  .desktop-admin-stat-grid,
+  .desktop-admin-grid.two,
+  .desktop-admin-action-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+#member-area-overlay,
+#food-overlay,
+#food-admin-overlay,
+#church-notifications-overlay,
+#church-admin-overlay {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  align-items: flex-start !important;
+}
+
+#member-area-overlay > div,
+#food-overlay > div,
+#food-admin-overlay > div,
+#church-notifications-overlay > div,
+#church-admin-overlay > div {
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+#member-sections {
+  padding-bottom: 4px;
+}
+.prayer-attendance {
+  background: #fffdf8;
+  border-color: #eadfc8;
+}
+
+.prayer-attendance p {
+  margin: 8px 0 0;
+  color: #5f6368;
+  line-height: 1.45;
+}
+
+/* Church Administration role drop-downs */
+.church-admin-role-dropdown {
+  margin: 12px 0;
+  border: 1px solid #ded7cb;
+  border-radius: 8px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.church-admin-role-dropdown > summary {
+  position: relative;
+  cursor: pointer;
+  list-style: none;
+  padding: 12px 42px 12px 12px;
+  background: #f7f4ed;
+  font-weight: 700;
+  user-select: none;
+}
+
+.church-admin-role-dropdown > summary::-webkit-details-marker {
+  display: none;
+}
+
+.church-admin-role-dropdown > summary::after {
+  content: '▼';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+}
+
+.church-admin-role-dropdown[open] > summary::after {
+  content: '▲';
+}
+
+.church-admin-role-dropdown-title {
+  display: block;
+  font-size: 16px;
+}
+
+.church-admin-role-summary-text {
+  display: block;
+  margin-top: 4px;
+  color: #5f6368;
+  font-size: 13px;
+  line-height: 1.35;
+  font-weight: 500;
+}
+
+.church-admin-role-dropdown-body {
+  padding: 12px;
+  border-top: 1px solid #e5dfd4;
+}
+
+.church-admin-role-option-group {
+  margin-top: 12px;
+}
+
+.church-admin-role-option-group > strong {
+  display: block;
+  margin-bottom: 8px;
+}
