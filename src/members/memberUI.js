@@ -75,6 +75,10 @@ import {
   syncPushTokenForCurrentUser
 } from '../notifications/pushNotifications.js'
 
+import {
+  getMemberSignInErrorMessage
+} from '../auth/iosSignInError.js'
+
 let memberAreaRenderVersion = 0
 
 
@@ -1134,7 +1138,9 @@ async function signInMember() {
 
 
     status.textContent =
-      'Email or password is incorrect.'
+      getMemberSignInErrorMessage(
+        error
+      )
   }
 }
 

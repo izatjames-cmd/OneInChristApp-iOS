@@ -7,6 +7,10 @@ import {
   bindApostlesCreed
 } from '../shared/apostlesCreed.js'
 
+import {
+  configureIosScrollableOverlay
+} from '../platform/iosScrollableOverlay.js'
+
 
 export function renderServicePlanShell() {
 
@@ -45,6 +49,11 @@ export function renderServicePlanShell() {
 
   overlay.style.display =
     'none'
+
+
+  configureIosScrollableOverlay(
+    overlay
+  )
 
 
   overlay.innerHTML = `
@@ -141,6 +150,11 @@ function renderServicePlanEditorShell() {
 
   overlay.style.display =
     'none'
+
+
+  configureIosScrollableOverlay(
+    overlay
+  )
 
 
   overlay.innerHTML = `
