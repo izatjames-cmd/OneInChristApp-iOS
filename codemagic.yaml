@@ -26,6 +26,18 @@ workflows:
         script: |
           npx cap sync ios
 
+      - name: Configure Firebase and iOS permissions
+        script: |
+          test -f "$CM_BUILD_DIR/GoogleService-Info.plist"
+          cp "$CM_BUILD_DIR/GoogleService-Info.plist" "$CM_BUILD_DIR/ios/App/App/GoogleService-Info.plist"
+
+          /usr/libexec/PlistBuddy \
+            -c "Add :NSMicrophoneUsageDescription string One in Christ Church uses the microphone for live sermon translation and voice recording." \
+            "$CM_BUILD_DIR/ios/App/App/Info.plist" || \
+          /usr/libexec/PlistBuddy \
+            -c "Set :NSMicrophoneUsageDescription One in Christ Church uses the microphone for live sermon translation and voice recording." \
+            "$CM_BUILD_DIR/ios/App/App/Info.plist"
+
       - name: Show generated iOS project
         script: |
           find ios -maxdepth 3 -type f | sort | head -200
@@ -42,6 +54,18 @@ workflows:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
             build
+
+      - name: Add Firebase config to Simulator app bundle
+        script: |
+          APP_PATH=$(find "$HOME/Library/Developer/Xcode/DerivedData" -type d -path "*/Build/Products/Debug-iphonesimulator/App.app" | head -1)
+
+          if [ -z "$APP_PATH" ]; then
+            echo "ERROR: Simulator App.app was not found."
+            exit 1
+          fi
+
+          cp "$CM_BUILD_DIR/GoogleService-Info.plist" "$APP_PATH/GoogleService-Info.plist"
+          echo "Firebase configuration added to: $APP_PATH"
 
     artifacts:
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
