@@ -51,7 +51,7 @@ workflows:
         script: |
           find ios -maxdepth 3 -type f | sort | head -200
 
-      - name: Build unsigned iOS Simulator app
+      - name: Build iOS Simulator app
         script: |
           xcodebuild \
             -project "$CM_BUILD_DIR/ios/App/App.xcodeproj" \
@@ -59,9 +59,6 @@ workflows:
             -configuration Debug \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO \
             build
 
       - name: Add Firebase config to Simulator app bundle
@@ -76,6 +73,20 @@ workflows:
           cp "$CM_BUILD_DIR/GoogleService-Info.plist" "$APP_PATH/GoogleService-Info.plist"
           echo "Firebase configuration added to: $APP_PATH"
 
+      - name: Inspect iOS Simulator signing and entitlements
+        script: |
+          APP_PATH=$(find "$HOME/Library/Developer/Xcode/DerivedData" -type d -path "*/Build/Products/Debug-iphonesimulator/App.app" | head -1)
+
+          if [ -z "$APP_PATH" ]; then
+            echo "ERROR: Simulator App.app was not found."
+            exit 1
+          fi
+
+          echo "Simulator app: $APP_PATH"
+          echo "---- Code signature ----"
+          codesign -dvv "$APP_PATH" 2>&1 || true
+          echo "---- Entitlements ----"
+          codesign -d --entitlements :- "$APP_PATH" 2>&1 || true
     artifacts:
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
       - /tmp/xcodebuild_logs/*.log
