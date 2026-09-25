@@ -5,15 +5,6 @@ workflows:
     instance_type: mac_mini_m2
     max_build_duration: 60
 
-
-    triggering:
-      events:
-        - push
-      branch_patterns:
-        - pattern: main
-          include: true
-          source: true
-      cancel_previous_builds: true
     environment:
       node: "22"
       xcode: latest
@@ -38,6 +29,7 @@ workflows:
       - name: Configure Firebase Messaging iOS bridge
         script: |
           node scripts/configure-ios-firebase-messaging.mjs
+
       - name: Configure Firebase and iOS permissions
         script: |
           test -f "$CM_BUILD_DIR/GoogleService-Info.plist"
@@ -90,6 +82,130 @@ workflows:
           codesign -dvv "$APP_PATH" 2>&1 || true
           echo "---- Entitlements ----"
           codesign -d --entitlements :- "$APP_PATH" 2>&1 || true
+
     artifacts:
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
       - /tmp/xcodebuild_logs/*.log
+
+  ios-real-device-ad-hoc:
+    name: OneInChristApp - Real iPhone Ad Hoc
+
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+
+    triggering:
+      events:
+        - tag
+      tag_patterns:
+        - pattern: "ios-device-*"
+          include: true
+
+    integrations:
+      app_store_connect: OneInChrist Codemagic
+
+    environment:
+      ios_signing:
+        provisioning_profiles:
+          - OneInChrist Ad Hoc
+        certificates:
+          - OneInChrist Distribution
+      node: "22"
+      xcode: latest
+      cocoapods: default
+
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm ci
+
+      - name: Build shared Vite app
+        script: |
+          npm run build
+
+      - name: Generate Capacitor iOS project
+        script: |
+          npx cap add ios
+
+      - name: Sync Capacitor iOS
+        script: |
+          npx cap sync ios
+
+      - name: Configure Firebase Messaging iOS bridge
+        script: |
+          node scripts/configure-ios-firebase-messaging.mjs
+
+      - name: Configure Firebase and iOS permissions
+        script: |
+          test -f "$CM_BUILD_DIR/GoogleService-Info.plist"
+          cp "$CM_BUILD_DIR/GoogleService-Info.plist" "$CM_BUILD_DIR/ios/App/App/GoogleService-Info.plist"
+
+          /usr/libexec/PlistBuddy \
+            -c "Add :NSMicrophoneUsageDescription string One in Christ Church uses the microphone for live sermon translation and voice recording." \
+            "$CM_BUILD_DIR/ios/App/App/Info.plist" || \
+          /usr/libexec/PlistBuddy \
+            -c "Set :NSMicrophoneUsageDescription One in Christ Church uses the microphone for live sermon translation and voice recording." \
+            "$CM_BUILD_DIR/ios/App/App/Info.plist"
+
+      - name: Configure signed iPhone project
+        script: |
+          ruby -e "require 'xcodeproj'; puts \"xcodeproj #{Xcodeproj::VERSION}\""
+          ruby scripts/configure-ios-native-project.rb
+
+      - name: Set up Ad Hoc signing
+        script: |
+          xcode-project use-profiles \
+            --project "$CM_BUILD_DIR/ios/App/App.xcodeproj"
+
+      - name: Build signed iPhone IPA
+        script: |
+          cd "$CM_BUILD_DIR/ios/App"
+          xcode-project build-ipa \
+            --project "App.xcodeproj" \
+            --scheme "App"
+
+      - name: Verify signed iPhone IPA
+        script: |
+          IPA_PATH=$(find "$CM_BUILD_DIR/ios/App/build/ios/ipa" -name "*.ipa" | head -1)
+
+          if [ -z "$IPA_PATH" ]; then
+            echo "ERROR: Signed IPA was not found."
+            exit 1
+          fi
+
+          VERIFY_DIR=$(mktemp -d)
+          unzip -q "$IPA_PATH" -d "$VERIFY_DIR"
+
+          APP_PATH=$(find "$VERIFY_DIR/Payload" -maxdepth 1 -type d -name "*.app" | head -1)
+
+          if [ -z "$APP_PATH" ]; then
+            echo "ERROR: App bundle was not found inside IPA."
+            exit 1
+          fi
+
+          test -f "$APP_PATH/GoogleService-Info.plist"
+
+          BUNDLE_ID=$(/usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APP_PATH/Info.plist")
+
+          if [ "$BUNDLE_ID" != "org.oneinchristchurch.app" ]; then
+            echo "ERROR: Unexpected bundle id: $BUNDLE_ID"
+            exit 1
+          fi
+
+          ENTITLEMENTS=$(codesign -d --entitlements :- "$APP_PATH" 2>&1)
+
+          echo "$ENTITLEMENTS"
+
+          echo "$ENTITLEMENTS" | grep -q "aps-environment" || {
+            echo "ERROR: Push Notifications entitlement is missing."
+            exit 1
+          }
+
+          echo "Signed IPA verified:"
+          echo "- Bundle ID: $BUNDLE_ID"
+          echo "- Firebase configuration: present"
+          echo "- Push entitlement: present"
+
+    artifacts:
+      - ios/App/build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
