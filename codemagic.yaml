@@ -35,6 +35,9 @@ workflows:
         script: |
           npx cap sync ios
 
+      - name: Configure Firebase Messaging iOS bridge
+        script: |
+          node scripts/configure-ios-firebase-messaging.mjs
       - name: Configure Firebase and iOS permissions
         script: |
           test -f "$CM_BUILD_DIR/GoogleService-Info.plist"

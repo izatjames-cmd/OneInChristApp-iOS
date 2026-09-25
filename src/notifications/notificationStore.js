@@ -215,19 +215,87 @@ export async function saveDeviceToken({
   platform
 }) {
 
+  const normalizedPlatform =
+    platform === 'ios'
+      ? 'ios'
+      : platform === 'android'
+        ? 'android'
+        : 'unknown'
+
+
+  const updatedAt =
+    new Date().toISOString()
+
+
+  const data = {
+    uid,
+    lastPlatform:
+      normalizedPlatform,
+    updatedAt
+  }
+
+
+  /*
+   * Keep the legacy Android token fields
+   * so existing Android installations and
+   * the currently deployed Cloud Function
+   * continue to work during migration.
+   *
+   * Store iOS separately so signing in on
+   * an iPhone never overwrites the user's
+   * Android registration token.
+   */
+  if (
+    normalizedPlatform ===
+    'android'
+  ) {
+
+    data.token =
+      token
+
+    data.platform =
+      'android'
+
+    data.androidToken =
+      token
+
+    data.androidUpdatedAt =
+      updatedAt
+  }
+
+
+  if (
+    normalizedPlatform ===
+    'ios'
+  ) {
+
+    data.iosToken =
+      token
+
+    data.iosUpdatedAt =
+      updatedAt
+  }
+
+
+  if (
+    normalizedPlatform ===
+    'unknown'
+  ) {
+
+    data.token =
+      token
+
+    data.platform =
+      'unknown'
+  }
+
+
   await FirebaseFirestore.setDocument({
 
     reference:
       `deviceTokens/${uid}`,
 
-    data: {
-      uid,
-      token,
-      platform:
-        platform || 'unknown',
-      updatedAt:
-        new Date().toISOString()
-    },
+    data,
 
     merge:
       true

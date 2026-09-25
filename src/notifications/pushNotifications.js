@@ -3,8 +3,8 @@ import {
 } from '@capacitor/core'
 
 import {
-  PushNotifications
-} from '@capacitor/push-notifications'
+  FirebaseMessaging
+} from '@capacitor-firebase/messaging'
 
 import {
   LocalNotifications
@@ -25,6 +25,48 @@ import {
 
 let currentPushToken =
   null
+
+
+async function loadCurrentFcmToken() {
+
+  if (
+    !Capacitor.isNativePlatform()
+  ) {
+    return null
+  }
+
+
+  try {
+
+    const result =
+      await FirebaseMessaging.getToken()
+
+
+    const token =
+      result?.token ||
+      null
+
+
+    if (token) {
+      currentPushToken =
+        token
+    }
+
+
+    return token
+
+
+  } catch (error) {
+
+    console.error(
+      'Unable to get Firebase messaging token:',
+      error
+    )
+
+
+    return null
+  }
+}
 
 
 async function saveTokenForSignedInUser() {
@@ -73,6 +115,11 @@ async function saveTokenForSignedInUser() {
 
 
 export async function syncPushTokenForCurrentUser() {
+
+  if (!currentPushToken) {
+    await loadCurrentFcmToken()
+  }
+
 
   await saveTokenForSignedInUser()
 }
@@ -197,7 +244,40 @@ async function setupNotificationChannel() {
   } catch (error) {
 
     console.error(
-      'Unable to create notification channel:',
+      'Unable to create local notification channel:',
+      error
+    )
+  }
+
+
+  try {
+
+    await FirebaseMessaging.createChannel({
+
+      id:
+        'church_notifications',
+
+      name:
+        'Church Notifications',
+
+      description:
+        'Notifications from One in Christ Church',
+
+      importance:
+        5,
+
+      visibility:
+        1,
+
+      vibration:
+        true
+    })
+
+
+  } catch (error) {
+
+    console.error(
+      'Unable to create Firebase messaging channel:',
       error
     )
   }
@@ -214,15 +294,22 @@ export async function setupPushNotifications() {
 
 
   /*
-   * When Firebase receives a message
-   * while the app is OPEN, display it
-   * as a normal Android system
-   * notification.
+   * FirebaseMessaging is used on BOTH
+   * Android and iOS so the stored token
+   * is always an FCM token.
+   *
+   * @capacitor/push-notifications is not
+   * used together with this plugin.
    */
-  PushNotifications.addListener(
-    'pushNotificationReceived',
+  FirebaseMessaging.addListener(
+    'notificationReceived',
 
-    async notification => {
+    async event => {
+
+      const notification =
+        event?.notification ||
+        null
+
 
       console.log(
         'Foreground push received:',
@@ -230,24 +317,38 @@ export async function setupPushNotifications() {
       )
 
 
-      await showSystemNotification(
-        notification
-      )
+      /*
+       * On iOS, FirebaseMessaging uses the
+       * presentationOptions configured in
+       * capacitor.config.json to display a
+       * foreground notification.
+       *
+       * Android still needs the local
+       * system notification used by the
+       * existing app, so only create it on
+       * Android. This prevents duplicate
+       * alerts on iPhone.
+       */
+      if (
+        Capacitor.getPlatform() ===
+        'android'
+      ) {
+
+        await showSystemNotification(
+          notification
+        )
+      }
     }
   )
 
 
-  /*
-   * Firebase notification tapped while
-   * app was backgrounded or closed.
-   */
-  PushNotifications.addListener(
-    'pushNotificationActionPerformed',
+  FirebaseMessaging.addListener(
+    'notificationActionPerformed',
 
-    async action => {
+    async event => {
 
       const data =
-        action
+        event
           ?.notification
           ?.data ||
         {}
@@ -266,10 +367,6 @@ export async function setupPushNotifications() {
   )
 
 
-  /*
-   * System notification created locally
-   * while the app was already open.
-   */
   LocalNotifications.addListener(
     'localNotificationActionPerformed',
 
@@ -298,18 +395,23 @@ export async function setupPushNotifications() {
   )
 
 
-  PushNotifications.addListener(
-    'registration',
+  FirebaseMessaging.addListener(
+    'tokenReceived',
 
-    async token => {
+    async event => {
 
       currentPushToken =
-        token.value
+        event?.token ||
+        null
+
+
+      if (!currentPushToken) {
+        return
+      }
 
 
       console.log(
-        'Push token:',
-        token.value
+        'FCM token refreshed.'
       )
 
 
@@ -318,32 +420,38 @@ export async function setupPushNotifications() {
   )
 
 
-  PushNotifications.addListener(
-    'registrationError',
-
-    error => {
-
-      console.error(
-        'Push registration error:',
-        error
-      )
-    }
-  )
+  let permission
 
 
-  let permission =
-    await PushNotifications
-      .checkPermissions()
-
-
-  if (
-    permission.receive ===
-    'prompt'
-  ) {
+  try {
 
     permission =
-      await PushNotifications
-        .requestPermissions()
+      await FirebaseMessaging
+        .checkPermissions()
+
+
+    if (
+      permission.receive ===
+        'prompt' ||
+      permission.receive ===
+        'prompt-with-rationale'
+    ) {
+
+      permission =
+        await FirebaseMessaging
+          .requestPermissions()
+    }
+
+
+  } catch (error) {
+
+    console.error(
+      'Unable to check notification permissions:',
+      error
+    )
+
+
+    return
   }
 
 
@@ -356,6 +464,7 @@ export async function setupPushNotifications() {
       'Notification permission not granted.'
     )
 
+
     return
   }
 
@@ -366,36 +475,11 @@ export async function setupPushNotifications() {
   ) {
 
     await setupNotificationChannel()
-
-
-    /*
-     * Android notification channels are
-     * required for Firebase notifications
-     * while the app is backgrounded or
-     * closed. iOS does not use channels.
-     */
-    await PushNotifications.createChannel({
-
-      id:
-        'church_notifications',
-
-      name:
-        'Church Notifications',
-
-      description:
-        'Notifications from One in Christ Church',
-
-      importance:
-        5,
-
-      visibility:
-        1,
-
-      vibration:
-        true
-    })
   }
 
 
-  await PushNotifications.register()
+  await loadCurrentFcmToken()
+
+
+  await saveTokenForSignedInUser()
 }

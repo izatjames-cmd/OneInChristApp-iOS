@@ -47,6 +47,13 @@ const {
   'firebase-admin/messaging'
 )
 
+const {
+  getTokensFromDeviceData,
+  uniqueTokens
+} = require(
+  './notificationTokens'
+)
+
 const crypto =
   require(
     'crypto'
@@ -247,6 +254,23 @@ exports.sendChurchNotification =
           },
 
 
+          apns: {
+
+            headers: {
+              'apns-priority':
+                '10'
+            },
+
+            payload: {
+
+              aps: {
+                sound:
+                  'default'
+              }
+            }
+          },
+
+
           tokens
         }
 
@@ -441,14 +465,15 @@ async function getNotificationTokens({
     )
   ) {
 
-    return tokenSnapshot.docs
-      .map(
-        doc =>
-          doc.data()?.token
-      )
-      .filter(
-        Boolean
-      )
+    return uniqueTokens(
+      tokenSnapshot.docs
+        .flatMap(
+          doc =>
+            getTokensFromDeviceData(
+              doc.data()
+            )
+        )
+    )
   }
 
 
@@ -481,21 +506,20 @@ async function getNotificationTokens({
               data
           })
         ) {
-          const token =
-            doc.data()?.token
-
-          if (token) {
-            tokens.push(
-              token
+          tokens.push(
+            ...getTokensFromDeviceData(
+              doc.data()
             )
-          }
+          )
         }
       }
     )
   )
 
 
-  return tokens
+  return uniqueTokens(
+    tokens
+  )
 }
 
 
@@ -551,21 +575,20 @@ async function getChoirNotificationTokens(
           access.choirPlanning === true ||
           access.churchAdmin === true
         ) {
-          const token =
-            doc.data()?.token
-
-          if (token) {
-            tokens.push(
-              token
+          tokens.push(
+            ...getTokensFromDeviceData(
+              doc.data()
             )
-          }
+          )
         }
       }
     )
   )
 
 
-  return tokens
+  return uniqueTokens(
+    tokens
+  )
 }
 
 

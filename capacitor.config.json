@@ -6,6 +6,13 @@
     "FirebaseAuthentication": {
       "skipNativeAuth": false,
       "providers": []
+    },
+    "FirebaseMessaging": {
+      "presentationOptions": [
+        "alert",
+        "badge",
+        "sound"
+      ]
     }
   },
   "experimental": {
@@ -22,6 +29,9 @@
             "symlink": true
           },
           "@capacitor-firebase/storage": {
+            "symlink": true
+          },
+          "@capacitor-firebase/messaging": {
             "symlink": true
           }
         }
